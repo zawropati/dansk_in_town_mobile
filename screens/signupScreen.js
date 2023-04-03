@@ -4,7 +4,6 @@ import {
   StyleSheet, ScrollView, ActivityIndicator, View, Text, Pressable
 } from 'react-native';
 import PropTypes from 'prop-types';
-import something from '../calls/imagesApi.js'
 import Parse from 'parse/react-native.js';
 import CustomInput from '../components/customInput.js';
 
@@ -57,7 +56,6 @@ const SignupScreen = (props) => {
               <Text style={styles.text}>Create account</Text>
             </Pressable>
         </View>
-
     </View>
   );
 }
@@ -66,21 +64,22 @@ const SignupScreen = (props) => {
 const styles = StyleSheet.create({
   page: {
     padding: 30,
-    marginTop: '10%',
+    height: '100%',
+    backgroundColor: '#F9F5FF'
   },
   button: {
-    backgroundColor: '#F75835',
-    width: 200,
+    backgroundColor: '#F06543',
+    width: 220,
+    alignSelf: 'center',
     padding: 10,
-    borderRadius: 20,
-    alignSelf: 'center'
+    borderRadius: 24,
   },
   text: {
-    textAlign: 'center',
-    fontSize: 20,
     color: 'white',
-  }
-
+    fontFamily: 'Archivo_Black',
+    fontSize: 18,
+    textAlign: 'center'
+  },
 });
 
 export default SignupScreen;

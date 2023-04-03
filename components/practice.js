@@ -2,82 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { getTranslationsForExercises, tooEasy, addToFavourites, checkIfFavourite } from "../calls/db.js";
 // import { Link } from "react-router-dom";
 import {
-    StyleSheet, ImageBackground, View, Text, Image, Pressable, ActivityIndicator,
+    StyleSheet, ImageBackground, View, Text, Image, Pressable, ScrollView
   } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { User } from 'parse/react-native.js';
 import { useRoute } from '@react-navigation/native';
 
-const TranslationScreen = () => {
+export default function practice ({data}) {
     const [translation, setTranslation] = useState();
     const [isFavourite, setFavourite] = useState(false);
     const [wrongs, setWrongs] = useState();
     const [state, setIndex] = useState(-1);
     const [word, setWord] = useState();
     const [currentScore, setScore] = useState(0);
-    const [practiceFavourites, setPractice] = useState(false)
-    const [transData, setData] = useState()
-    const [loading, setLoading] = useState(false)
+    // const [favourites, setPractice] = useState(practiceFavourites)
+    // const route = useRoute();
+    // const { data, practiceFavourites } = route.params;
+    console.log(data)
+    const correctWord = data[Math.floor(Math.random() * data.length)];
+    const wrongWords = []
 
-    // const practiceFavourites = false
-    const route = useRoute();
+    for(var i = 0; i < 3; i++ ){
+        wrongWords.push(data[Math.floor(Math.random() * data.length)])
+    }
 
-    useEffect(() => {
-      if (route.params) {
-        const { data, practiceFavourites } = route.params;
-        setData(data)
-        setPractice(true)
-        setData(data)
-        handleFavourties(data);
-      }else{
-        getRandomTranslation();
-      }
-    }, [route.params]);
-
-    // useEffect(() => {
-    //   getRandomTranslation();
-    // }, [practiceFavourites]);
-
-    function getRandomTranslation(practice, data) {
-        setLoading(true)
-        getTranslationsForExercises().then((translations) => {
-          const correctWord = translations[Math.floor(Math.random() * translations.length)];
-          const wrongWords = []
-
-          for(var i = 0; i < 3; i++ ){
-            wrongWords.push(translations[Math.floor(Math.random() * translations.length)])
-          }
-          // console.log(translations)
-
-          let imageId = correctWord.get("image").id
-          let userId = Parse.User.current().id
-          checkIfFavourite(imageId, userId).then((res) =>{
-            setFavourite(res)
-            console.log(isFavourite)
-          })
-          wrongWords.push(correctWord)
-          shuffleArray(wrongWords)
-          setWrongs(wrongWords)
-          setTranslation(correctWord)
-          setLoading(false)
-        });
-      }
-
-      function handleFavourties(data) {
-        const correctWord = data[Math.floor(Math.random() * data.length)];
-        const wrongWords = []
-
-        for(var i = 0; i < 3; i++ ){
-          wrongWords.push(data[Math.floor(Math.random() * data.length)])
-        }
-        console.log(wrongs)
-        wrongWords.push(correctWord)
-        shuffleArray(wrongWords)
-        setWrongs(wrongWords)
-        setTranslation(correctWord)
-        setLoading(false)
-
-      }
+    wrongWords.push(correctWord)
+    shuffleArray(wrongWords)
+    setWrongs(wrongWords)
+    setTranslation(correctWord)
 
     function shuffleArray (array) {
       for (var i = array.length - 1; i > 0; i--) {
@@ -89,23 +41,19 @@ const TranslationScreen = () => {
       return array;
     }
 
-    const handleTooEasy = function () {
+    function handleTooEasy () {
       tooEasy(translation).then(() => {
         console.log("saved");
-        if(!practiceFavourites){
-          getRandomTranslation();
-        }else{handleFavourties(transData)}
+        getRandomTranslation();
       });
     }
 
-    const handleNext = function () {
+    function handleNext () {
         if(word.get('to') == translation.get('to')){
             alert('Good!')
             setIndex(-1);
             setScore(currentScore + 1)
-            if(!practiceFavourites){
-              getRandomTranslation();
-            }else{handleFavourties(transData)}
+            getRandomTranslation();
         }else{
             setIndex(-1);
             alert('Wrong!')
@@ -113,29 +61,22 @@ const TranslationScreen = () => {
     //   setShowingSolution(false);
     }
 
-    const pickTile = function (e, index) {
+    function pickTile (e, index) {
         setIndex(index)
         setWord(e)
     }
 
-	const addFavourites = function (){
+	function addFavourites (){
 		let imgId = translation.get('image').id
     let userId = User.current().id
     addToFavourites(imgId, userId)
 		// let userId = translation.get('image').id
 	}
 
-  const exitFavourites = function (){
-    setPractice(false)
-    getRandomTranslation(false);
-  }
-    if (!translation || loading) {
-      return (
-        <View style={{  backgroundColor: '#F9F5FF', height: '100%', paddingTop: 10}}>
-          <ActivityIndicator  size="large" color="#F06543"/>
-        </View>
-      )
+    if (!translation) {
+      return <Text> Loading .. </Text>;
     }
+
     return (
       <View style={{  backgroundColor: '#F9F5FF', height: '100%' }}>
       <View style={{alignItems: 'center', alignSelf: 'center'}}>
@@ -143,21 +84,13 @@ const TranslationScreen = () => {
 				<ImageBackground style={{width: 350, height: 320, resizeMode: 'contain', flex: 1}} source={require('../assets/graph(4).png')} resizeMode="cover">
 					<Image alt="" style={{resizeMode: 'contain', width:'90%', height:'90%', alignSelf: 'center', justifyContent:'center', marginTop: 20}} src={translation.get("image").get("file").url()} />
 					<View style={{display: 'flex', padding: 10, flexDirection: 'row', textAlign: 'center'}}>
-						{isFavourite && !practiceFavourites && (<Pressable
+						{isFavourite && (<Pressable
 						style={{
 							backgroundColor: '#ffffff', borderRadius: 50, width: 160, display: 'flex', flexDirection: 'row', padding: 1}}
 							onPress={() => addFavourites()} variant="secondary"
 						>
-							<Ionicons size={25} color='#F06543' name='add-outline'/>
+							<Ionicons size={25} color='#4845ed' name='add-outline'/>
 							<Text style={{fontSize: 16, paddingTop: 3}}>Add to favourites</Text>
-						</Pressable>)}
-						{practiceFavourites && (<Pressable
-						style={{
-							backgroundColor: '#ffffff', justifyContent: 'center', borderRadius: 50, width: 200, display: 'flex', flexDirection: 'row', padding: 1}}
-							onPress={() => exitFavourites()} variant="secondary"
-						>
-							<Ionicons size={25} color='#F06543' name='close-outline'/>
-							<Text style={{fontSize: 16, paddingTop: 3}}>Exit favourites mode</Text>
 						</Pressable>)}
 					</View>
         </ImageBackground>
@@ -227,7 +160,7 @@ const TranslationScreen = () => {
       </View>
       </View>
     );
-  }
+    }
 
 const styles = StyleSheet.create({
   wordContainer: {
@@ -259,5 +192,3 @@ const styles = StyleSheet.create({
       color: 'white',
   }
 });
-
-export default TranslationScreen;

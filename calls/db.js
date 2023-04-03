@@ -1,9 +1,9 @@
 import Parse, {User} from 'parse/react-native.js';
+import * as FileSystem from 'expo-file-system';
 
 async function getTranslations() {
   const Translation = Parse.Object.extend("Translation");
   const query = new Parse.Query(Translation);
-  console.log(Parse.User.current())
   query.include("image");
   query.notContainedIn("too_easy", [User.current()]);
   query.equalTo("user", Parse.User.current());
@@ -52,30 +52,95 @@ async function tooEasy(translation) {
   translation.save();
 }
 
-async function uploadImageAndWords(imageFile, translations) {
-  const Image = Parse.Object.extend("Image");
-  const newImage = new Image();
+async function uploadImageAndWords(photoFileInfo, photoBase64, translations) {
+  const photoFile = new Parse.File(photoFileInfo.uri.split('/').pop(), { base64: photoBase64 });
+  await photoFile.save().then(async (result) => {
+    const Image = Parse.Object.extend("Image");
+    const newImage = new Image();
+    newImage.set("file", photoFile)
+    return await Promise.all(
+      translations.map((translation) => {
+        const Translation = Parse.Object.extend("Translation");
+        const newTranslation = new Translation();
+        newTranslation.set("from", translation.from);
+        newTranslation.set("to", translation.to);
+        newTranslation.set("user", Parse.User.current());
+        newTranslation.set("image", newImage);
+        try {
+          return newTranslation.save();
+        } catch (error) {
+          alert(error);
+          return Promise.reject("something went wrong");
+        }
+      })
+    )
+  }).catch((error) => {
+    console.log(error)
+  })
+}
 
-  const file = new Parse.File(imageFile.name, imageFile);
-  newImage.set("file", file);
+async function addToFavourites(imageId, userId) {
+  const myNewObject = new Parse.Object('Favourites');
+  myNewObject.set('userId', userId);
+  myNewObject.set('imageId',imageId);
+  try {
+    const result = await myNewObject.save();
+    // Access the Parse Object attributes using the .GET method
+    console.log('Favourites created', result);
+  } catch (error) {
+    console.error('Error while creating Favourites: ', error);
+  }
+}
 
-  return await Promise.all(
-    translations.map((translation) => {
-      const Translation = Parse.Object.extend("Translation");
-      const newTranslation = new Translation();
-      newTranslation.set("from", translation.from);
-      newTranslation.set("to", translation.to);
-      newTranslation.set("user", Parse.User.current());
-      newTranslation.set("image", newImage);
+async function getFavouritesByUser(userId) {
+  const Favourites = Parse.Object.extend("Favourites");
+  const query = new Parse.Query(Favourites);
 
-      try {
-        return newTranslation.save();
-      } catch (error) {
-        alert(error);
-        return Promise.reject("something went wrong");
-      }
-    })
-  );
+  const object = await query.get('xKue915KBG');
+  object.set('userId', userId);
+
+  query.include("image");
+  return await query.get(id);
+  const myNewObject = new Parse.Object('Favourites');
+  myNewObject.set('userId', userId);
+  myNewObject.set('imageId',imageId);
+  try {
+    const result = await myNewObject.save();
+    // Access the Parse Object attributes using the .GET method
+    console.log('Favourites created', result);
+  } catch (error) {
+    console.error('Error while creating Favourites: ', error);
+  }
+}
+
+async function getLastWeekTranslations(){
+  const today = new Date();
+  const lastWeek = new Date(today.getTime() - (7 * 24 * 60 * 60 * 1000));
+  const Translation = Parse.Object.extend("Translation");
+  const query = new Parse.Query(Translation);
+  query.equalTo("user", Parse.User.current());
+  query.greaterThan('createdAt', lastWeek);
+
+  return await query.count();
+
+}
+async function getAllTranslations(){
+  const Translation = Parse.Object.extend("Translation");
+  const query = new Parse.Query(Translation);
+  query.equalTo("user", Parse.User.current());
+
+  return await query.count();
+
+}
+
+async function checkIfFavourite(imageId, userId){
+  const Translation = Parse.Object.extend("Favourites");
+  const query = new Parse.Query(Translation);
+  query.equalTo("userId", userId);
+  query.equalTo("imageId", imageId);
+
+  return await query.exists();
+
 }
 
 export {
@@ -85,4 +150,8 @@ export {
   getTranslationsForExercises,
   getTranslation,
   getRandomTranslationBut,
+  addToFavourites,
+  getLastWeekTranslations,
+  getAllTranslations,
+  checkIfFavourite
 };
