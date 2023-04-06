@@ -8,8 +8,6 @@
 3. For packages, you can run expo install, it will automatically use your package manager 
 4. Once everything is installed, you can run 
 ````
-```
 expo start
-```
 ````
 5. Scan QR code which will appear in termina and enjoy the app in Expo Go :) 
