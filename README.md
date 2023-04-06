@@ -10,4 +10,4 @@
 ````
 expo start
 ````
-5. Scan QR code which will appear in termina and enjoy the app in Expo Go :) 
+5. Scan QR code which will appear in terminal and enjoy the app in Expo Go :) 
