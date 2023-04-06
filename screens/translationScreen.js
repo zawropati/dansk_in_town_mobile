@@ -136,7 +136,7 @@ const TranslationScreen = () => {
     )
   }
   return (
-    <View style={{  backgroundColor: '#F9F5FF', height: windowHeight, flex: 1}}>
+    <View style={{  backgroundColor: '#FFFDFB', height: windowHeight, flex: 1}}>
       {practiceFavourites && (<Pressable
         style={{
           backgroundColor: '#ffffff', alignSelf: 'center',
@@ -177,7 +177,7 @@ const TranslationScreen = () => {
           {wrongs.map((e, index) => (
             <Pressable key={index}
             style={{
-              backgroundColor: state === index ? '#40F99B' : 'white',
+              backgroundColor: state === index ? '#40F99B' : '#F3F3FF',
               margin: 5,
               paddingBottom: 20,
               paddingTop: 20,

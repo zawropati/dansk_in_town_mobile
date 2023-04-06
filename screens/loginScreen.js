@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   page: {
     padding: 30,
     height: '100%',
-    backgroundColor: '#F9F5FF'
+    backgroundColor: '#F06543'
   },
   button: {
     backgroundColor: '#F06543',

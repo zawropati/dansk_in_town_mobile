@@ -92,12 +92,12 @@ const LearnScreen = ({  }) => {
 
     return (
     <View>
-        <><ScrollView style={{ backgroundColor: '#F9F5FF' }}>
+        <><ScrollView style={{ backgroundColor: '#FFFDFB' }}>
         <View style={styles.overviewBox}>
             <Text style={styles.textLevel}>Level {level}</Text>
             <Text>{missingWords} words missing to achieve the next level!</Text>
             <View style={styles.progressBox}>
-                {progress && (<ProgressBar color={'#F06543'} progress={progress} />)}
+                {progress && (<ProgressBar color={'#4845ed'} progress={progress} />)}
             </View>
             <View style={styles.boxes}>
                 <Text style={styles.boxText}>Last week you added <Text style={{fontFamily: 'Archivo_Black'}}>{numberLastWeek}</Text> words!</Text>
@@ -107,7 +107,8 @@ const LearnScreen = ({  }) => {
         <View style={{ marginTop: 10 }}>
             <View
                 style={{
-                    width: '90%', display: 'flex', flexDirection: 'row', justifyContent:'space-between', padding: 2, marginLeft: 20
+                    width: '90%', display: 'flex', flexDirection: 'row', justifyContent:'space-between',
+                    padding: 2, marginLeft: 20, borderBottomWidth: '1px solid', borderBottomColor: '#F06543'
                 }}
             >
                 <View style={{
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'row',
       flexWrap: true,
-    //   width: '90%',
+      width: '90%',
       alignSelf: 'center',
       justifyContent:'center',
       padding: 10,
@@ -151,10 +152,10 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       height: 150,
       marginTop: 10,
-      borderBottomWidth: '2px solid',
-      borderBottomColor: '#F06543',
-    //   backgroundColor: 'white',
-    //   borderRadius: 10,
+    //   borderBottomWidth: '2px solid',
+    //   borderBottomColor: '#F06543',
+      backgroundColor: '#F3F3FF',
+      borderRadius: 10,
   },
   textLevel: {
     fontSize: 24,

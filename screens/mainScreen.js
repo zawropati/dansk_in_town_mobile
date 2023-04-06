@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
 container: {
   flex: 1,
   flexDirection: 'column',
-  backgroundColor: '#F9F5FF'
+  backgroundColor: '#FFFDFB'
 },
 image: {
   flex: 1,

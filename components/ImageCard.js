@@ -13,9 +13,9 @@ export default function ImageCard({ imageId, url, words, seeTranslations }) {
               <View style={{display: 'flex', flexDirection:'row', alignSelf: 'center'}}>
                 <Image style={styles.image} source={{uri: url}}></Image>
                 <View style={{display: 'flex', flexDirection:'columns'}}>
-                    <Text style={{margin: 10, fontSize: 18}}>{e.get("from")}</Text>
+                    <Text style={{margin: 10, fontSize: 20}}>{e.get("from")}</Text>
                   {seeTranslations && (
-                    <Text style={{margin: 10, fontSize: 16, opacity: 0.8}}>{e.get("to")}</Text>
+                    <Text style={{margin: 10, fontSize: 18, opacity: 0.8}}>{e.get("to")}</Text>
                   )}
                 </View>
               </View>
@@ -32,9 +32,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '90%',
     alignSelf: 'center',
-    backgroundColor: 'rgba(168, 168, 237, 0.3)',
-    marginBottom: 10,
-    borderRadius: 10,
+    // backgroundColor: '#FFF8F1',
+    borderBottomColor: '#4845ed',
+    borderBottomWidth: '1px solid',
+    // marginBottom: 10,
+    // borderRadius: 10,
     justifyContent: 'space-between'
   },
   mainContainer: {
@@ -45,8 +47,8 @@ const styles = StyleSheet.create({
     alignSelf: ''
   },
   image: {
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
     margin: 10,
     alignSelf: 'center',
     justifyContent: 'center'
