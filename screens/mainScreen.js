@@ -7,6 +7,8 @@ import { Camera, CameraType } from 'expo-camera';
 import CameraPreview from '../components/cameraPreview'
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import { useIsFocused } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native';
 
 const BuildingScreen = (props) => {
   const [startCamera, setStartCamera] = React.useState(false)
@@ -16,6 +18,26 @@ const BuildingScreen = (props) => {
   const [flashMode, setFlashMode] = React.useState('off')
   const [picked, setPicked] = useState(false)
   const navigation = useNavigation();
+  const isFocused = useIsFocused()
+
+  // console.log(Parse.User.current().get('username'))
+  const [loggedInUser, setLoggedInUser] = useState()
+  const route = useRoute();
+
+
+  useEffect(() => {
+    const checkForUser = async () => {
+      await Parse.User.currentAsync().then((result) => {
+        if(result){
+          setLoggedInUser(result)
+        }else{
+          setLoggedInUser(false)
+          setStartCamera(false)
+        }
+      })
+    }
+    checkForUser();
+  }, [isFocused, loggedInUser, route.params]);
 
   const __startCamera = async () => {
     const {status} = await Camera.requestCameraPermissionsAsync()
@@ -69,8 +91,8 @@ const BuildingScreen = (props) => {
     setStartCamera(false)
 
   }
-  const goToPractice = () => {
-    navigation.navigate('Practice')
+  const goToSignup = () => {
+    navigation.navigate('Profile', { screen: 'Login' })
   }
 
   const pickImage = async () => {
@@ -196,7 +218,7 @@ const BuildingScreen = (props) => {
                       bottom: 0,
                       position: 'absolute',
                       borderRadius: 25,
-                      backgroundColor: "#4845ed",
+                      backgroundColor: "#F06543",
                     }}
                   >
                   <Text
@@ -205,10 +227,10 @@ const BuildingScreen = (props) => {
                     color: '#fff',
                     fontWeight: 'bold',
                     textAlign: 'center',
-                    fontFamily: 'Archivo',
+                    fontFamily: 'Archivo_Black',
                     }}
                   >
-                  ← Go back
+                  Go back
                   </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -221,19 +243,19 @@ const BuildingScreen = (props) => {
                       bottom: 0,
                       position: 'absolute',
                       borderRadius: 25,
-                      backgroundColor: "#F06543",
+                      backgroundColor: "#4845ed",
                     }}
                   >
                   <Text
                   style={{
-                    lineHeight: 36,
+                    lineHeight: 40,
                     color: '#fff',
                     fontWeight: 'bold',
                     textAlign: 'center',
-                    fontFamily: 'Archivo',
+                    fontFamily: 'Archivo_Black',
                     }}
                   >
-                  🖼 Select
+                  Select
                   </Text>
                   </TouchableOpacity>
 
@@ -245,35 +267,39 @@ const BuildingScreen = (props) => {
       </View>
     ) : (
       <>
-      <View style={{height: 300, width: 300, justifyContent: 'center', alignSelf: 'center'}}>
-        <Image style={{ alignSelf: 'center', flex: 1, width: '100%', resizeMode: 'contain'}}
-        source={require('../assets/DanskInTown2.png')}></Image>
-      </View>
-      <View style={{height: 700, width: 450, justifyContent: 'center', alignSelf: 'center'}}>
-        <ImageBackground style={styles.image2} source={require('../assets/graph(4).png')}>
-          <Text style={styles.introText}>
+      <View style={styles.mainContainer}>
+      {/* <ImageBackground style={styles.image2} source={require('../assets/graph(5).png')}> */}
+        <View style={{height: 100, width: 300, justifyContent: 'center', alignSelf: 'center'}}>
+          <Image style={styles.image} source={require('../assets/cameraLogo.png')}></Image>
+        </View>
+      {/* </ImageBackground> */}
+      <View style={{justifyContent: 'center', alignSelf: 'center'}}>
+      {!loggedInUser && ( <Text style={styles.introText}>
             {/* Understand the world around you{"\n"} */}
-          Do you live in Denmark?  🇩🇰{"\n"}{"\n"} Wouldn't it be nice if you would understand at least the danish on the signs you see around town?{"\n"}{"\n"}
+          Do you live in Denmark?  🇩🇰{"\n"}{"\n"} Wouldn't it be nice to understand the danish you see around town?{"\n"}{"\n"}
           Start taking pictures, build your dictionary and learn through the translations!
           {/* Practice Danish vocabulary based on photos taken around town. Either use the public photo set that we created by walking everywhere around town, or upload and practice with your own photos. Tip: When uploading your own you get automatic translations too! */}
-          </Text>
-        {/* <ImageBackground style={styles.image} source={require('../assets/graph(3).png')} resizeMode="cover"> */}
-        {/* </ImageBackground> */}
+          </Text> )}
       <View style={styles.practiceBox}>
-        {Parse.User.current() && (
+        {loggedInUser && (
+        <><Text style={styles.welcomeText}>Welcome back, <Text style={{fontFamily: 'Archivo_Black'}}>{loggedInUser.get('username')}</Text> 🧡</Text>
         <TouchableOpacity
           onPress={__startCamera}
           style={{
             backgroundColor: "#4845ed",
+            display: 'block',
+            height: 250,
             width: 250,
             alignSelf: 'center',
             marginBottom: 10,
             padding: 10,
-            borderRadius: 24,
+            borderRadius: 150,
+            top: 150
           }}
         >
           <Text
             style={{
+              marginTop: 100,
               fontFamily: 'Archivo_Black',
               fontSize: 24,
               textAlign: 'center',
@@ -282,11 +308,11 @@ const BuildingScreen = (props) => {
           >
             Take picture
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity></>
         )}
-        {!Parse.User.current() && (
+        {!loggedInUser && (
         <TouchableOpacity
-          onPress={__startCamera}
+          onPress={goToSignup}
           style={{
             backgroundColor: "#4845ed",
             width: 250,
@@ -304,33 +330,14 @@ const BuildingScreen = (props) => {
               color: 'white'
             }}
           >
-            Sign up
+            Log in
           </Text>
         </TouchableOpacity>
         )}
-        {/* <TouchableOpacity
-            onPress={goToPractice}
-            style={{
-              backgroundColor: "#F06543",
-              width: 250,
-              alignSelf: 'center',
-              padding: 10,
-              borderRadius: 24,
-            }}
-            >
-            <Text
-              style={{
-                color: 'white',
-                fontFamily: 'Archivo_Black',
-                fontSize: 24,
-                textAlign: 'center'
-              }}
-            >
-            Read more
-            </Text>
-        </TouchableOpacity> */}
+
       </View>
-      </ImageBackground>
+
+      </View>
       </View>
       </>
     )}
@@ -346,31 +353,38 @@ container: {
 },
 image: {
   flex: 1,
-  resizeMode: 'cover',
-  top: 250
+  top: 10,
+  alignSelf: 'center', flex: 1, width: '100%', resizeMode: 'contain'
 },
 image2: {
   width: '100%',
-  height: '100%',
+  height: '120%',
   flex: 1,
   resizeMode: 'cover',
-  top: -310,
+  top: -400,
 },
 introText: {
   fontSize: 24,
-  width: '80%',
-  color: 'white',
+  // width: '80%',
+  padding: 60,
   fontFamily: 'Archivo',
   alignSelf: 'center',
   textAlign: 'center',
   fontWeight: 'bold',
-  position: 'absolute',
-  top: 250
+  // position: 'absolute',
+  // top: 250
 },
-
+mainContainer: {
+  marginTop: 30
+},
 practiceBox: {
-  top: 530,
-  width: '100%',
+  // top: 500,
+  // width: '100%',
+},
+welcomeText: {
+  textAlign: 'center',
+  fontSize: 30,
+  top: 100,
 }
 })
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getTranslationsForExercises, tooEasy, addToFavourites, checkIfFavourite } from "../calls/db.js";
+import { getTranslationsForExercises, tooEasy, addToFavourites, checkIfFavourite, addEvent } from "../calls/db.js";
 // import { Link } from "react-router-dom";
 import {
     StyleSheet, ImageBackground, View, Text, Image, Pressable, ActivityIndicator,
@@ -7,6 +7,8 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { User } from 'parse/react-native.js';
 import { useRoute } from '@react-navigation/native';
+import {useWindowDimensions} from 'react-native';
+
 
 const TranslationScreen = () => {
     const [translation, setTranslation] = useState();
@@ -18,8 +20,8 @@ const TranslationScreen = () => {
     const [practiceFavourites, setPractice] = useState(false)
     const [transData, setData] = useState()
     const [loading, setLoading] = useState(false)
+    const {windowHeight, windowWidth} = useWindowDimensions();
 
-    // const practiceFavourites = false
     const route = useRoute();
 
     useEffect(() => {
@@ -43,17 +45,15 @@ const TranslationScreen = () => {
         getTranslationsForExercises().then((translations) => {
           const correctWord = translations[Math.floor(Math.random() * translations.length)];
           const wrongWords = []
-
+          //need to think here about same words being added to the array
           for(var i = 0; i < 3; i++ ){
             wrongWords.push(translations[Math.floor(Math.random() * translations.length)])
           }
-          // console.log(translations)
 
           let imageId = correctWord.get("image").id
           let userId = Parse.User.current().id
           checkIfFavourite(imageId, userId).then((res) =>{
             setFavourite(res)
-            console.log(isFavourite)
           })
           wrongWords.push(correctWord)
           shuffleArray(wrongWords)
@@ -70,7 +70,6 @@ const TranslationScreen = () => {
         for(var i = 0; i < 3; i++ ){
           wrongWords.push(data[Math.floor(Math.random() * data.length)])
         }
-        console.log(wrongs)
         wrongWords.push(correctWord)
         shuffleArray(wrongWords)
         setWrongs(wrongWords)
@@ -91,7 +90,6 @@ const TranslationScreen = () => {
 
     const handleTooEasy = function () {
       tooEasy(translation).then(() => {
-        console.log("saved");
         if(!practiceFavourites){
           getRandomTranslation();
         }else{handleFavourties(transData)}
@@ -100,6 +98,7 @@ const TranslationScreen = () => {
 
     const handleNext = function () {
         if(word.get('to') == translation.get('to')){
+            addEvent('correctAnswer', translation.id)
             alert('Good!')
             setIndex(-1);
             setScore(currentScore + 1)
@@ -107,6 +106,7 @@ const TranslationScreen = () => {
               getRandomTranslation();
             }else{handleFavourties(transData)}
         }else{
+            addEvent('wrongAnswer', translation.id)
             setIndex(-1);
             alert('Wrong!')
         }
@@ -122,112 +122,120 @@ const TranslationScreen = () => {
 		let imgId = translation.get('image').id
     let userId = User.current().id
     addToFavourites(imgId, userId)
-		// let userId = translation.get('image').id
 	}
 
   const exitFavourites = function (){
     setPractice(false)
     getRandomTranslation(false);
   }
-    if (!translation || loading) {
-      return (
-        <View style={{  backgroundColor: '#F9F5FF', height: '100%', paddingTop: 10}}>
-          <ActivityIndicator  size="large" color="#F06543"/>
-        </View>
-      )
-    }
+  if (!translation || loading) {
     return (
-      <View style={{  backgroundColor: '#F9F5FF', height: '100%' }}>
-      <View style={{alignItems: 'center', alignSelf: 'center'}}>
-        <View style={{height: 400, textAlign: 'center'}}>
-				<ImageBackground style={{width: 350, height: 320, resizeMode: 'contain', flex: 1}} source={require('../assets/graph(4).png')} resizeMode="cover">
-					<Image alt="" style={{resizeMode: 'contain', width:'90%', height:'90%', alignSelf: 'center', justifyContent:'center', marginTop: 20}} src={translation.get("image").get("file").url()} />
-					<View style={{display: 'flex', padding: 10, flexDirection: 'row', textAlign: 'center'}}>
-						{isFavourite && !practiceFavourites && (<Pressable
-						style={{
-							backgroundColor: '#ffffff', borderRadius: 50, width: 160, display: 'flex', flexDirection: 'row', padding: 1}}
-							onPress={() => addFavourites()} variant="secondary"
-						>
-							<Ionicons size={25} color='#F06543' name='add-outline'/>
-							<Text style={{fontSize: 16, paddingTop: 3}}>Add to favourites</Text>
-						</Pressable>)}
-						{practiceFavourites && (<Pressable
-						style={{
-							backgroundColor: '#ffffff', justifyContent: 'center', borderRadius: 50, width: 200, display: 'flex', flexDirection: 'row', padding: 1}}
-							onPress={() => exitFavourites()} variant="secondary"
-						>
-							<Ionicons size={25} color='#F06543' name='close-outline'/>
-							<Text style={{fontSize: 16, paddingTop: 3}}>Exit favourites mode</Text>
-						</Pressable>)}
-					</View>
-        </ImageBackground>
-        </View>
-					<Text style={{textAlign: 'center', fontSize: 22, fontFamily: 'Archivo_Black', fontWeight: 200, marginBottom: 5, marginTop: 50}}>
-						{translation.get("from")}
-					</Text>
-        <View style={styles.wordContainer}>
-            {wrongs.map((e, index) => (
-              <Pressable key={index}
-              style={{
-                backgroundColor: state === index ? '#40F99B' : 'white',
-                margin: 5,
-                paddingBottom: 20,
-                paddingTop: 20,
-                paddingLeft: 10,
-                paddingRight: 10,
-                // flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '40%',
-                textAlign: 'center',
-                borderRadius: 5,
-                transition: '1s ease-in-out',
-                }}
-            	onPress={() => pickTile(e, index)} variant="secondary"
-            >
-                <Text style={{textAlign: 'center', fontSize: 18, fontFamily: 'Archivo', fontWeight: 200,}}>{e.get("to")}</Text>
-                </Pressable>
-            ))}
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-                <Pressable
-                style={{
-                    width: 160,
-                    borderRadius: 25,
-                    padding: 10,
-                    backgroundColor: '#4845ed',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 40,
-                    margin: 5
-                }} onPress={() => handleNext()}
-                >
-                <Text style={{color: '#fff', fontFamily: 'Archivo_Black'}}>
-                    Show Solution
-                </Text>
-                </Pressable>
-                <Pressable
-                style={{
-                    width: 160,
-                    borderRadius: 25,
-                    padding: 10,
-                    backgroundColor: 'white',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 40
-                }} onPress={() => handleTooEasy()}
-                >
-                <Text style={{color: '#4845ed', fontFamily: 'Archivo_Black'}}>
-                    Too easy
-                </Text>
-                </Pressable>
-        </View>
+      <View style={{  backgroundColor: '#F9F5FF', height: '100%', paddingTop: 10}}>
+        <ActivityIndicator  size="large" color="#F06543"/>
       </View>
-      </View>
-    );
+    )
   }
+  return (
+    <View style={{  backgroundColor: '#F9F5FF', height: windowHeight, flex: 1}}>
+      {practiceFavourites && (<Pressable
+        style={{
+          backgroundColor: '#ffffff', alignSelf: 'center',
+          borderRadius: 50, width: 180, display: 'flex',
+          flexDirection: 'row', padding: 1, position: 'absolute',
+          zIndex:100, marginTop: 20, justifyContent: 'center',
+        }}
+          onPress={() => exitFavourites()} variant="secondary"
+        >
+        <Ionicons size={25} color='#F06543' name='close-outline'/>
+        <Text style={{fontSize: 16, paddingTop: 3}}>Exit library mode</Text>
+      </Pressable>)}
+    <View style={{alignItems: 'center', height: '55%', width: '100%',paddingTop: 10,
+      paddingBottom: 10,
+      borderBottomWidth: '2px solid',
+      borderBottomColor: '#F06543',
+      }}>
+      <Image alt="" style={{width: '100%', height: '100%', resizeMode: 'contain'}} src={translation.get("image").get("file").url()} />
+      {/* <ImageBackground style={{width: 350, height: 300, resizeMode: 'contain', flex: 1}} source={require('../assets/graph(4).png')} resizeMode="cover"> */}
+        {/* //  style={{resizeMode: 'contain', width:'75%', height:'75%', alignSelf: 'center', justifyContent:'center', marginTop: 20}} */}
+        {/* </ImageBackground> */}
+        <View style={{display: 'flex', padding: 10, flexDirection: 'row', textAlign: 'center'}}>
+          {/* {isFavourite && !practiceFavourites && (<Pressable
+          style={{
+            backgroundColor: '#ffffff', borderRadius: 50, width: 160, display: 'flex', flexDirection: 'row', padding: 1}}
+            onPress={() => addFavourites()} variant="secondary"
+          >
+            <Ionicons size={25} color='#F06543' name='add-outline'/>
+            <Text style={{fontSize: 16, paddingTop: 3}}>Add to favourites</Text>
+          </Pressable>)} */}
+        </View>
+      </View>
+      <View style={{height: '40%',  marginTop: 20}}>
+        <Text style={{textAlign: 'center', fontSize: 22, fontFamily: 'Archivo_Black', fontWeight: 200, marginBottom: 5}}>
+          {translation.get("from")}
+        </Text>
+      <View style={styles.wordContainer}>
+          {wrongs.map((e, index) => (
+            <Pressable key={index}
+            style={{
+              backgroundColor: state === index ? '#40F99B' : 'white',
+              margin: 5,
+              paddingBottom: 20,
+              paddingTop: 20,
+              paddingLeft: 10,
+              paddingRight: 10,
+              // flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '40%',
+              textAlign: 'center',
+              borderRadius: 5,
+              transition: '1s ease-in-out',
+              }}
+            onPress={() => pickTile(e, index)} variant="secondary"
+          >
+              <Text style={{textAlign: 'center', fontSize: 18, fontFamily: 'Archivo', fontWeight: 200,}}>{e.get("to")}</Text>
+              </Pressable>
+          ))}
+      </View>
+      <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
+              <Pressable
+              style={{
+                  width: 160,
+                  borderRadius: 25,
+                  padding: 10,
+                  backgroundColor: '#4845ed',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 40,
+                  margin: 5
+              }} onPress={() => handleNext()}
+              >
+              <Text style={{color: '#fff', fontFamily: 'Archivo_Black'}}>
+                  Check
+              </Text>
+              </Pressable>
+              <Pressable
+              style={{
+                  width: 160,
+                  borderRadius: 25,
+                  padding: 10,
+                  backgroundColor: 'white',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 40
+              }} onPress={() => handleTooEasy()}
+              >
+              <Text style={{color: '#4845ed', fontFamily: 'Archivo_Black'}}>
+                  Too easy
+              </Text>
+              </Pressable>
+      </View>
+    </View>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   wordContainer: {

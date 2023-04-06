@@ -6,6 +6,7 @@ import {
 import Parse from 'parse/react-native.js';
 import CustomInput from '../components/customInput.js';
 import { User } from 'parse/react-native.js';
+import {addEvent} from '../calls/db'
 
 const checkUser = async () => {
   if(await User.currentAsync()){
@@ -25,13 +26,14 @@ function LoginScreen(props) {
     user.setPassword(password);
     user.setUsername(username);
     user.logIn().then((loggedInUser) => {
-        navigation.navigate("Home");
-        props.onLogIn()
-        setUser(true)
-      }).catch((error) => {
-        console.log(error.message)
-        return false;
-      });
+      addEvent('login')
+      navigation.navigate("Home");
+      props.onLogIn()
+      setUser(true)
+    }).catch((error) => {
+      console.log(error.message)
+      return false;
+    });
   }
 
   const goToSignup = function () {

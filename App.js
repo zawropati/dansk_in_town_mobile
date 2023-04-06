@@ -13,7 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { initializeParse } from '@parse/react-native';
 import { useFonts } from 'expo-font';
 import Parse from 'parse/react-native.js';
-import { User } from 'parse/react-native.js';
+import { addEvent } from './calls/db';
 
 initializeParse(
   "https://parseapi.back4app.com/",
@@ -76,7 +76,6 @@ export default function App() {
           }else {
             iconName = focused ? 'log-in' : 'log-in-outline';
           }
-          // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveBackgroundColor: '#F06543',
@@ -93,16 +92,16 @@ export default function App() {
       component={LoginScreen}
       listeners={({ navigation }) => ({
         tabPress: (e) => {
-          e.preventDefault();
-          Parse.User.logOut().then(() => {
-            setLoggedInUser(false)
-            navigation.navigate("Home");
+          addEvent('logout').then(() => {
+            e.preventDefault();
+            Parse.User.logOut().then(() => {
+              setLoggedInUser(false)
+              navigation.navigate("Home", {logOut: true});
+            })
           })
-        },
+        }
       })}
       />
-
-            {/* {(props) => <LoginScreen {...props} onLogIn={() => setLoggedInUser(true) } onLogOut={() => setLoggedInUser(false)} />} */}
     </>
     ) : (
       <><Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Home" component={mainScreen} />

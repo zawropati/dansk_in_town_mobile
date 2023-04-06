@@ -143,6 +143,21 @@ async function checkIfFavourite(imageId, userId){
 
 }
 
+async function addEvent(eventType, translationId){
+  const newEvent = new Parse.Object('Event');
+  newEvent.set('EventType', eventType);
+  newEvent.set('userId', Parse.User.current().id);
+  if(translationId){
+    newEvent.set('translationId', translationId);
+  }
+  try {
+    const result = await newEvent.save();
+  } catch (error) {
+    console.error('Error while creating event: ', error);
+  }
+
+}
+
 export {
   getTranslations,
   uploadImageAndWords,
@@ -153,5 +168,6 @@ export {
   addToFavourites,
   getLastWeekTranslations,
   getAllTranslations,
-  checkIfFavourite
+  checkIfFavourite,
+  addEvent
 };
