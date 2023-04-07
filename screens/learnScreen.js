@@ -107,7 +107,7 @@ const LearnScreen = ({  }) => {
             <View
                 style={{
                     width: '90%', display: 'flex', flexDirection: 'row', justifyContent:'space-between',
-                    padding: 2, marginLeft: 20, borderBottomWidth: '1px solid', borderBottomColor: '#F06543'
+                    padding: 2, marginLeft: 20, borderBottomWidth: 1, borderStyle: 'solid', borderBottomColor: '#F06543'
                 }}
             >
                 <View style={{
@@ -140,18 +140,14 @@ const LearnScreen = ({  }) => {
 const styles = StyleSheet.create({
   overviewBox: {
       display: 'flex',
-      flexDirection: 'row',
-      flexWrap: true,
       width: '90%',
       alignSelf: 'center',
       justifyContent:'center',
+      alignItems: 'center',
       padding: 10,
-      paddingBottom: 20,
       marginBottom: 10,
-      height: 150,
+      height: 160,
       marginTop: 10,
-    //   borderBottomWidth: '2px solid',
-    //   borderBottomColor: '#F06543',
       backgroundColor: '#F3F3FF',
       borderRadius: 10,
   },

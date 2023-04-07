@@ -12,7 +12,7 @@ export default function ImageCard({ imageId, url, words, seeTranslations }) {
             key={e.id}>
               <View style={{display: 'flex', flexDirection:'row', alignSelf: 'center'}}>
                 <Image style={styles.image} source={{uri: url}}></Image>
-                <View style={{display: 'flex', flexDirection:'columns', flexShrink: 1}}>
+                <View style={{display: 'flex', flexDirection:'column', flexShrink: 1}}>
                     <Text style={{margin: 10, fontSize: 18, }}>{e.get("from")}</Text>
                   {seeTranslations && (
                     <Text style={{margin: 10, fontSize: 16, opacity: 0.8}}>{e.get("to")}</Text>
@@ -34,9 +34,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // backgroundColor: '#FFF8F1',
     borderBottomColor: '#4845ed',
-    borderBottomWidth: '1px solid',
-    // marginBottom: 10,
-    // borderRadius: 10,
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
     justifyContent: 'space-between'
   },
   mainContainer: {
@@ -44,7 +43,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 600,
     fontFamily: 'Archivo',
-    alignSelf: ''
   },
   image: {
     height: 70,

@@ -152,7 +152,8 @@ const TranslationScreen = () => {
       </TouchableOpacity>)}
     <View style={{alignItems: 'center', height: '45%', width: '100%',paddingTop: 10,
       paddingBottom: 10,
-      borderBottomWidth: '2px solid',
+      borderBottomWidth: 2,
+      borderStyle: 'solid',
       borderBottomColor: '#F06543',
       }}>
         <Image alt=""
@@ -245,9 +246,9 @@ const TranslationScreen = () => {
 const styles = StyleSheet.create({
   wordContainer: {
       display: 'flex',
+      flexWrap: 'wrap',
       flexDirection: 'row',
       marginBottom: 15,
-      flexWrap: true,
       justifyContent: 'center'
   },
   wordTile: {

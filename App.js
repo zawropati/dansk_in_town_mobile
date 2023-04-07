@@ -86,7 +86,7 @@ export default function App() {
         tabBarActiveBackgroundColor: '#F06543',
         tabBarActiveTintColor: "#FFFDFB",
         tabBarInactiveTintColor: "black",
-        tabBarStyle: [{ backgroundColor: '#FFF8F1', borderTopWidth: 0, marginRight: 5, height: 75 }],
+        tabBarStyle: [{ backgroundColor: '#FFF8F1', borderTopWidth: 0, marginRight: 5 }],
       })}
     >
     {loggedInUser ? (
