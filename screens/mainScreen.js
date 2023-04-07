@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, ImageBackground, Image, View, Text, Switch, TouchableOpacity
+  StyleSheet, ImageBackground, Image, View, Text, Switch, TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Camera, CameraType } from 'expo-camera';

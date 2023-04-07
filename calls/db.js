@@ -5,7 +5,7 @@ async function getTranslations() {
   const Translation = Parse.Object.extend("Translation");
   const query = new Parse.Query(Translation);
   query.include("image");
-  query.notContainedIn("too_easy", [User.current()]);
+  // query.notContainedIn("too_easy", [User.current()]);
   query.equalTo("user", Parse.User.current());
 
   return await query.find();

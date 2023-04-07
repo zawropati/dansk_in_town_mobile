@@ -48,10 +48,10 @@ export default function App() {
   function UserScreen() {
     return (
       <User.Navigator screenOptions={{ tabBarShowLabel: false}}  >
-        <User.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB'}}} name="Login">
+        <User.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB'}, headerShadowVisible: false}} name="Login">
         {(props) => <LoginScreen {...props} onLogIn={() => setLoggedInUser(true) } onLogOut={() => setLoggedInUser(false)} />}
         </User.Screen>
-        <User.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB'}}} name="Signup" component={SignupScreen} />
+        <User.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB'}, headerShadowVisible: false}} name="Signup" component={SignupScreen} />
       </User.Navigator>
     );
   }
@@ -86,7 +86,7 @@ export default function App() {
         tabBarActiveBackgroundColor: '#F06543',
         tabBarActiveTintColor: "#FFFDFB",
         tabBarInactiveTintColor: "black",
-        tabBarStyle: [{ backgroundColor: '#FFF8F1', borderTopWidth: 0, marginRight: 5 }],
+        tabBarStyle: [{ backgroundColor: '#FFF8F1', borderTopWidth: 0, marginRight: 5, height: 75 }],
       })}
     >
     {loggedInUser ? (
@@ -110,7 +110,7 @@ export default function App() {
       />
     </>
     ) : (
-      <><Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' } }} name="Home" component={mainScreen} />
+      <><Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' },  headerShadowVisible: false }} name="Home" component={mainScreen} />
       <Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' } }}
       name="Profile"
       component={UserScreen} />

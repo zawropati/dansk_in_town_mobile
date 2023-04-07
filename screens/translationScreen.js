@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getTranslationsForExercises, tooEasy, addToFavourites, checkIfFavourite, addEvent } from "../calls/db.js";
 // import { Link } from "react-router-dom";
 import {
-    StyleSheet, ImageBackground, View, Text, Image, Pressable, ActivityIndicator,
+    StyleSheet, ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator,
   } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { User } from 'parse/react-native.js';
@@ -21,6 +21,7 @@ const TranslationScreen = () => {
     const [transData, setData] = useState()
     const [loading, setLoading] = useState(false)
     const {windowHeight, windowWidth} = useWindowDimensions();
+    const [loadingImage, setLoadedImage] = useState(false);
 
     const route = useRoute();
 
@@ -130,52 +131,56 @@ const TranslationScreen = () => {
   }
   if (!translation || loading) {
     return (
-      <View style={{  backgroundColor: '#F9F5FF', height: '100%', paddingTop: 10}}>
+      <View style={{  backgroundColor: '#FFFDFB', height: '100%', paddingTop: 10}}>
         <ActivityIndicator  size="large" color="#F06543"/>
       </View>
     )
   }
   return (
     <View style={{  backgroundColor: '#FFFDFB', height: windowHeight, flex: 1}}>
-      {practiceFavourites && (<Pressable
+      {practiceFavourites && (<TouchableOpacity
         style={{
           backgroundColor: '#ffffff', alignSelf: 'center',
           borderRadius: 50, width: 180, display: 'flex',
           flexDirection: 'row', padding: 1, position: 'absolute',
-          zIndex:100, marginTop: 20, justifyContent: 'center',
+          zIndex:100, marginTop: 10, justifyContent: 'center',
         }}
           onPress={() => exitFavourites()} variant="secondary"
         >
         <Ionicons size={25} color='#F06543' name='close-outline'/>
         <Text style={{fontSize: 16, paddingTop: 3}}>Exit library mode</Text>
-      </Pressable>)}
-    <View style={{alignItems: 'center', height: '55%', width: '100%',paddingTop: 10,
+      </TouchableOpacity>)}
+    <View style={{alignItems: 'center', height: '45%', width: '100%',paddingTop: 10,
       paddingBottom: 10,
       borderBottomWidth: '2px solid',
       borderBottomColor: '#F06543',
       }}>
-      <Image alt="" style={{width: '100%', height: '100%', resizeMode: 'contain'}} src={translation.get("image").get("file").url()} />
+        <Image alt=""
+        style={{width: '100%', height: '100%', resizeMode: 'contain'}}
+        src={translation.get("image").get("file").url()}
+        onLoad={() => setLoadedImage(true)}
+        />
       {/* <ImageBackground style={{width: 350, height: 300, resizeMode: 'contain', flex: 1}} source={require('../assets/graph(4).png')} resizeMode="cover"> */}
         {/* //  style={{resizeMode: 'contain', width:'75%', height:'75%', alignSelf: 'center', justifyContent:'center', marginTop: 20}} */}
         {/* </ImageBackground> */}
         <View style={{display: 'flex', padding: 10, flexDirection: 'row', textAlign: 'center'}}>
-          {/* {isFavourite && !practiceFavourites && (<Pressable
+          {/* {isFavourite && !practiceFavourites && (<TouchableOpacity
           style={{
             backgroundColor: '#ffffff', borderRadius: 50, width: 160, display: 'flex', flexDirection: 'row', padding: 1}}
             onPress={() => addFavourites()} variant="secondary"
           >
             <Ionicons size={25} color='#F06543' name='add-outline'/>
             <Text style={{fontSize: 16, paddingTop: 3}}>Add to favourites</Text>
-          </Pressable>)} */}
+          </TouchableOpacity>)} */}
         </View>
       </View>
-      <View style={{height: '40%',  marginTop: 20}}>
+      <ScrollView style={{marginTop: 20}}>
         <Text style={{textAlign: 'center', fontSize: 22, fontFamily: 'Archivo_Black', fontWeight: 200, marginBottom: 5}}>
           {translation.get("from")}
         </Text>
       <View style={styles.wordContainer}>
           {wrongs.map((e, index) => (
-            <Pressable key={index}
+            <TouchableOpacity key={index}
             style={{
               backgroundColor: state === index ? '#40F99B' : '#F3F3FF',
               margin: 5,
@@ -194,45 +199,45 @@ const TranslationScreen = () => {
             onPress={() => pickTile(e, index)} variant="secondary"
           >
               <Text style={{textAlign: 'center', fontSize: 18, fontFamily: 'Archivo', fontWeight: 200,}}>{e.get("to")}</Text>
-              </Pressable>
+              </TouchableOpacity>
           ))}
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-              <Pressable
-              style={{
-                  width: 160,
-                  borderRadius: 25,
-                  padding: 10,
-                  backgroundColor: '#4845ed',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 40,
-                  margin: 5
-              }} onPress={() => handleNext()}
-              >
-              <Text style={{color: '#fff', fontFamily: 'Archivo_Black'}}>
-                  Check
-              </Text>
-              </Pressable>
-              <Pressable
-              style={{
-                  width: 160,
-                  borderRadius: 25,
-                  padding: 10,
-                  backgroundColor: 'white',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 40
-              }} onPress={() => handleTooEasy()}
-              >
-              <Text style={{color: '#4845ed', fontFamily: 'Archivo_Black'}}>
-                  Too easy
-              </Text>
-              </Pressable>
+      <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: 15}}>
+        <TouchableOpacity
+        style={{
+            width: 160,
+            borderRadius: 25,
+            padding: 10,
+            backgroundColor: '#4845ed',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 40,
+            margin: 5
+        }} onPress={() => handleNext()}
+        >
+        <Text style={{color: '#fff', fontFamily: 'Archivo_Black'}}>
+            Check
+        </Text>
+        </TouchableOpacity>
+        {!practiceFavourites && (<TouchableOpacity
+        style={{
+            width: 160,
+            borderRadius: 25,
+            padding: 10,
+            backgroundColor: 'white',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 40
+        }} onPress={() => handleTooEasy()}
+        >
+        <Text style={{color: '#4845ed', fontFamily: 'Archivo_Black'}}>
+            Too easy
+        </Text>
+        </TouchableOpacity>)}
       </View>
-    </View>
+    </ScrollView>
     </View>
   );
 }

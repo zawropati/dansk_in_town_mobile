@@ -64,11 +64,11 @@ const LearnScreen = ({  }) => {
             setLevel(digit);
             if (number <= digit * 10) {
                 setMissing((digit) * 10 - number);
-                setProgress(1 - ((digit) * 10 - number) / 10);
-                } else {
-                // If number > level * 10, move on to the next level
-                    return;
-                }
+                setProgress(parseFloat(1.1 - ((digit) * 10 - number) / 10));
+            } else {
+            // If number > level * 10, move on to the next level
+                return;
+            }
         })
     return () => mounted = false;
     }, [isFocused, isSeeTranslations]);
@@ -84,14 +84,13 @@ const LearnScreen = ({  }) => {
 
     if (loading) {
         return (
-        <View style={{  backgroundColor: '#F9F5FF', height: '100%', paddingTop: 10}}>
-            <ActivityIndicator  size="large" color="#F06543"/>
+        <View style={{  backgroundColor: '#FFFDFB', height: '100%', paddingTop: 10}}>
+            <ActivityIndicator size="large" color="#F06543"/>
         </View>
         )
     }
-
     return (
-    <View>
+    <View style={{height: '100%'}}>
         <><ScrollView style={{ backgroundColor: '#FFFDFB' }}>
         <View style={styles.overviewBox}>
             <Text style={styles.textLevel}>Level {level}</Text>
@@ -121,7 +120,6 @@ const LearnScreen = ({  }) => {
                     {isSeeTranslations && (<><Ionicons size={25} color='#F06543' name='close' /><Text style={styles.buttonTextAll}> Hide translations</Text></>)}
                 </Pressable>
             </View>
-
             {imageIds.map((imageId) => (
             <View key={imageId}>
                 <ImageCard
