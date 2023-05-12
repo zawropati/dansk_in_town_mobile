@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getTranslationsForExercises, tooEasy, addToFavourites, checkIfFavourite, addEvent } from "../calls/db.js";
+import { getTranslationsForExercises, tooEasy, addToFavourites, checkIfFavourite, addEvent, getOptionsAnswers } from "../calls/db.js";
 // import { Link } from "react-router-dom";
 import {
-    StyleSheet, ImageBackground, View, Text, Image, Pressable, ActivityIndicator,
+    StyleSheet, ScrollView, View, Text, Image, Pressable, ActivityIndicator,
   } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { User } from 'parse/react-native.js';
@@ -21,6 +21,8 @@ const TranslationScreen = () => {
     const [transData, setData] = useState()
     const [loading, setLoading] = useState(false)
     const {windowHeight, windowWidth} = useWindowDimensions();
+    const [color, setColor] = useState('#40F99B')
+    const [correct, setCorrect ] = useState()
 
     const route = useRoute();
 
@@ -29,7 +31,6 @@ const TranslationScreen = () => {
         const { data, practiceFavourites } = route.params;
         setData(data)
         setPractice(true)
-        setData(data)
         handleFavourties(data);
       }else{
         getRandomTranslation();
@@ -44,38 +45,53 @@ const TranslationScreen = () => {
         setLoading(true)
         getTranslationsForExercises().then((translations) => {
           const correctWord = translations[Math.floor(Math.random() * translations.length)];
-          const wrongWords = []
-          //need to think here about same words being added to the array
-          for(var i = 0; i < 3; i++ ){
-            wrongWords.push(translations[Math.floor(Math.random() * translations.length)])
+          setWord(correctWord)
+          if(correctWord === undefined){
+            getOptionsAnswers(word).then((results) => {
+              let imageId = word.get("image").id
+              let userId = Parse.User.current().id
+              checkIfFavourite(imageId, userId).then((res) =>{
+                setFavourite(res)
+              })
+              results.push(word.get("to").toLowerCase())
+              setCorrect(null)
+              setIndex(-1)
+              shuffleArray(results)
+              setWrongs(results)
+              setTranslation(word)
+              setLoading(false)
+            })
+          }else{
+            console.log('else')
+            getOptionsAnswers(correctWord).then((results) => {
+              let imageId = correctWord.get("image").id
+              let userId = Parse.User.current().id
+              checkIfFavourite(imageId, userId).then((res) =>{
+                setFavourite(res)
+              })
+              results.push(correctWord.get("to").toLowerCase())
+              setCorrect(null)
+              setIndex(-1)
+              shuffleArray(results)
+              setWrongs(results)
+              setTranslation(correctWord)
+              setLoading(false)
+            })
           }
-
-          let imageId = correctWord.get("image").id
-          let userId = Parse.User.current().id
-          checkIfFavourite(imageId, userId).then((res) =>{
-            setFavourite(res)
-          })
-          wrongWords.push(correctWord)
-          shuffleArray(wrongWords)
-          setWrongs(wrongWords)
-          setTranslation(correctWord)
-          setLoading(false)
         });
       }
 
       function handleFavourties(data) {
         const correctWord = data[Math.floor(Math.random() * data.length)];
-        const wrongWords = []
 
-        for(var i = 0; i < 3; i++ ){
-          wrongWords.push(data[Math.floor(Math.random() * data.length)])
-        }
-        wrongWords.push(correctWord)
-        shuffleArray(wrongWords)
-        setWrongs(wrongWords)
-        setTranslation(correctWord)
-        setLoading(false)
+          getOptionsAnswers(correctWord).then((results) => {
+            results.push(correctWord.get("to").toLowerCase())
+            shuffleArray(results)
+            setWrongs(results)
+            setTranslation(correctWord)
+            setLoading(false)
 
+          })
       }
 
     function shuffleArray (array) {
@@ -96,26 +112,30 @@ const TranslationScreen = () => {
       });
     }
 
-    const handleNext = function () {
-        if(word.get('to') == translation.get('to')){
-            addEvent('correctAnswer', translation.id)
-            alert('Good!')
-            setIndex(-1);
-            setScore(currentScore + 1)
-            if(!practiceFavourites){
-              getRandomTranslation();
-            }else{handleFavourties(transData)}
-        }else{
-            addEvent('wrongAnswer', translation.id)
-            setIndex(-1);
-            alert('Wrong!')
-        }
-    //   setShowingSolution(false);
-    }
-
     const pickTile = function (e, index) {
-        setIndex(index)
-        setWord(e)
+      setWord(e)
+      setIndex(index)
+      setTimeout(() => {
+        if(e.toLowerCase() == translation.get('to').toLowerCase()){
+          // addEvent('correctAnswer', translation.id)
+          // setIndex(-1);
+          setCorrect(true)
+          setScore(currentScore + 1)
+          if(!practiceFavourites){
+            //
+          }else{handleFavourties(transData)}
+          }else{
+              console.log('here')
+              // addEvent('wrongAnswer', translation.id)
+              // setIndex(-1);
+              setCorrect(false)
+
+            }
+            setTimeout(() => {
+              getRandomTranslation()
+            }, 2000);
+        }, 2000);
+
     }
 
 	const addFavourites = function (){
@@ -149,7 +169,7 @@ const TranslationScreen = () => {
         <Ionicons size={25} color='#F06543' name='close-outline'/>
         <Text style={{fontSize: 16, paddingTop: 3}}>Exit library mode</Text>
       </Pressable>)}
-    <View style={{alignItems: 'center', height: '55%', width: '100%',paddingTop: 10,
+    <View style={{alignItems: 'center', height: '65%', width: '100%',paddingTop: 10,
       paddingBottom: 10,
       borderBottomWidth: '2px solid',
       borderBottomColor: '#F06543',
@@ -169,7 +189,7 @@ const TranslationScreen = () => {
           </Pressable>)} */}
         </View>
       </View>
-      <View style={{height: '40%',  marginTop: 20}}>
+      <ScrollView style={{height: '40%',  marginTop: 20}}>
         <Text style={{textAlign: 'center', fontSize: 22, fontFamily: 'Archivo_Black', fontWeight: 200, marginBottom: 5}}>
           {translation.get("from")}
         </Text>
@@ -177,62 +197,28 @@ const TranslationScreen = () => {
           {wrongs.map((e, index) => (
             <Pressable key={index}
             style={{
-              backgroundColor: state === index ? '#40F99B' : 'white',
+              backgroundColor: state === index && correct ? "#40F99B" : state === index && correct === false ? "red" : "white",
+              borderWidth: state === index ? "2" : '0',
               margin: 5,
-              paddingBottom: 20,
-              paddingTop: 20,
+              paddingBottom: 25,
+              paddingTop: 25,
               paddingLeft: 10,
               paddingRight: 10,
               // flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              width: '40%',
+              width: '45%',
               textAlign: 'center',
               borderRadius: 5,
               transition: '1s ease-in-out',
               }}
             onPress={() => pickTile(e, index)} variant="secondary"
           >
-              <Text style={{textAlign: 'center', fontSize: 18, fontFamily: 'Archivo', fontWeight: 200,}}>{e.get("to")}</Text>
+              <Text style={{textAlign: 'center', fontSize: 18, fontFamily: 'Archivo', fontWeight: 200,}}>{e}</Text>
               </Pressable>
           ))}
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-              <Pressable
-              style={{
-                  width: 160,
-                  borderRadius: 25,
-                  padding: 10,
-                  backgroundColor: '#4845ed',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 40,
-                  margin: 5
-              }} onPress={() => handleNext()}
-              >
-              <Text style={{color: '#fff', fontFamily: 'Archivo_Black'}}>
-                  Check
-              </Text>
-              </Pressable>
-              <Pressable
-              style={{
-                  width: 160,
-                  borderRadius: 25,
-                  padding: 10,
-                  backgroundColor: 'white',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 40
-              }} onPress={() => handleTooEasy()}
-              >
-              <Text style={{color: '#4845ed', fontFamily: 'Archivo_Black'}}>
-                  Too easy
-              </Text>
-              </Pressable>
-      </View>
-    </View>
+    </ScrollView>
     </View>
   );
 }

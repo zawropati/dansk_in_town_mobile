@@ -14,6 +14,7 @@ import { initializeParse } from '@parse/react-native';
 import { useFonts } from 'expo-font';
 import Parse from 'parse/react-native.js';
 import { addEvent } from './calls/db';
+import ProfileScreen from './screens/profileScreen';
 
 initializeParse(
   "https://parseapi.back4app.com/",
@@ -72,7 +73,7 @@ export default function App() {
           } else if (route.name === 'Practice') {
             iconName = focused ? 'language' : 'language-outline';
           } else if (route.name === 'Profile') {
-            iconName = focused ? 'log-in' : 'log-in-outline';
+            iconName = focused ? 'person-circle' : 'person-circle-outline';
           }else {
             iconName = focused ? 'log-in' : 'log-in-outline';
           }
@@ -87,21 +88,9 @@ export default function App() {
       <><Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Home" component={mainScreen} />
       <Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Library" component={LearnScreen} />
       <Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Practice" component={TranslationScreen} />
-      <Tab.Screen
-      name="Log out"
-      component={LoginScreen}
-      listeners={({ navigation }) => ({
-        tabPress: (e) => {
-          addEvent('logout').then(() => {
-            e.preventDefault();
-            Parse.User.logOut().then(() => {
-              setLoggedInUser(false)
-              navigation.navigate("Home", {logOut: true});
-            })
-          })
-        }
-      })}
-      />
+      <Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Profile">
+      {(props) => <ProfileScreen {...props} onLogOut={() => setLoggedInUser(false)} />}
+      </Tab.Screen>
     </>
     ) : (
       <><Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Home" component={mainScreen} />

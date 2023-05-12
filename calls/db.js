@@ -38,11 +38,60 @@ async function getRandomTranslationBut(id) {
 async function getTranslationsForExercises() {
   const Translation = Parse.Object.extend("Translation");
   const query = new Parse.Query(Translation);
-  query.include("image");
+  const totalNumberOfRows = await query.count();
+  query.limit(100); // limit to 100 results
+  query.skip(Math.floor(Math.random() * totalNumberOfRows)); // skip a random number of rows
+  const results = await query.find();
 
+
+  query.include("image");
   query.notContainedIn("too_easy", [User.current()]);
 
-  return await query.find();
+  return await query.find()
+}
+
+async function getOptionsAnswers(param) {
+  const levenshtein = require('fast-levenshtein');
+  const Translation = Parse.Object.extend("Translation");
+  const query = new Parse.Query(Translation);
+  const input = param.get("to")
+
+  const results = await query.find();
+
+  const sortedResults = results.sort((a, b) => {
+    const distanceA = levenshtein.get(input, a.get("to"));
+    const distanceB = levenshtein.get(input, b.get("to"));
+    return distanceA - distanceB;
+  });
+  // take the top 3 most similar results, excluding the input string
+  const mostSimilarResults = sortedResults.filter(result => result.get("to") !== input).slice(0, 3);
+
+  return mostSimilarResults.map(result => result.get("to").toLowerCase());
+
+  // const correctLength = param.get("to").length;
+  // const regex = new RegExp(`^.{${correctLength}}$`);
+  // query.matches("to", regex);
+
+  // let results = await query.find();
+  // const options = new Set();
+
+  // while (options.size < 3 && results.length > 0) {
+  //   const randomIndex = Math.floor(Math.random() * results.length);
+  //   const option = results[randomIndex].get("to");
+
+  //   if (option !== param && option.length === correctLength) {
+  //     options.add(option.toLowerCase());
+  //   }
+
+  //   results.splice(randomIndex, 1);
+
+  //   // If there are no more results, fetch another batch
+  //   if (results.length === 0) {
+  //     results = await query.find();
+  //   }
+  // }
+  // console.log(options)
+  // return Array.from(options);
 }
 
 async function tooEasy(translation) {
@@ -155,7 +204,27 @@ async function addEvent(eventType, translationId){
   } catch (error) {
     console.error('Error while creating event: ', error);
   }
+}
 
+async function saveExpoToken(token, userId){
+  const User = new Parse.User();
+  const query = new Parse.Query(User);
+  console.log(userId)
+  try {
+    // Finds the user by its ID
+    let user = await query.get(userId);
+    // Updates the data we want
+    user.set('expoPushToken', token);
+    try {
+      // Saves the user with the updated data
+      let response = await user.save();
+      console.log('Updated user', response);
+    } catch (error) {
+      console.error('Error while updating user', error);
+    }
+  } catch (error) {
+    console.error('Error while retrieving user', error);
+  }
 }
 
 export {
@@ -169,5 +238,7 @@ export {
   getLastWeekTranslations,
   getAllTranslations,
   checkIfFavourite,
-  addEvent
+  addEvent,
+  saveExpoToken,
+  getOptionsAnswers
 };
