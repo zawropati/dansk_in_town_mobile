@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { useIsFocused } from '@react-navigation/native'
 import { useRoute } from '@react-navigation/native';
+import Notification from '../components/notification'
 
 const BuildingScreen = (props) => {
   const [startCamera, setStartCamera] = React.useState(false)
@@ -110,6 +111,7 @@ const BuildingScreen = (props) => {
   };
   return (
     <View style={styles.container}>
+    <Notification/>
     {startCamera ? (
       <View
         style={{
