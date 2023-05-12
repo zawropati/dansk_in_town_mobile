@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import {
-  ImageBackground, View, Text, TouchableOpacity
+  ImageBackground, View, Text, TouchableOpacity, Image
 } from 'react-native';
 import Translation from './translation.js';
 import { uploadImageAndWords} from "../calls/db.js";
 import * as FileSystem from 'expo-file-system';
+import {useWindowDimensions} from 'react-native';
 
 export default function CameraPreview ({photo, retakePicture, savePhoto, close, picked}) {
   const [translations, setTranslations] = useState([
     { id: generateUID(), to: "", from: "" },
   ]);
+  const {windowHeight, windowWidth} = useWindowDimensions();
 
   function generateUID() {
     return Date.now().toString(36) + Math.random().toString(36).substring(2);
@@ -59,32 +61,30 @@ export default function CameraPreview ({photo, retakePicture, savePhoto, close, 
     setTranslations(translations.filter((t) => t.id !== translation.id));
   }
     return (
-      <View>
+      <View style={{height: windowHeight}}>
       <View
         style={{
           backgroundColor: 'transparent',
-          width: '70%',
-          height: '60%',
+          width: '100%',
+          height: '50%',
           alignSelf: 'center',
-          resizeMode: 'contain',
           marginTop: 20
         }}
       >
         <ImageBackground
+            resizeMode= 'contain'
             source={ !picked ? {uri: photo && photo.uri } : source={uri:photo.uri} }
             style={{
             flex: 1,
             width: '100%',
             height: '100%',
             alignSelf: 'center',
-            resizeMode: 'contain'
           }}
         >
           <View
             style={{
               flex: 1,
               flexDirection: 'column',
-              padding: 15,
               justifyContent: 'flex-end'
             }}
           >
@@ -97,16 +97,15 @@ export default function CameraPreview ({photo, retakePicture, savePhoto, close, 
               <TouchableOpacity
                 onPress={retakePicture}
                 style={{
-                  width: 130,
-                  height: 40,
-
+                  width: 120,
                   alignItems: 'center',
+                  justifyContent: 'center',
                   borderRadius: 4
                 }}
               >
                 <Text
                   style={{
-                    color: '#fff',
+                    color: 'black',
                     fontSize: 20
                   }}
                 >
@@ -116,16 +115,14 @@ export default function CameraPreview ({photo, retakePicture, savePhoto, close, 
               <TouchableOpacity
                 onPress={close}
                 style={{
-                  width: 130,
-                  height: 40,
-
+                  width: 120,
                   alignItems: 'center',
                   borderRadius: 4
                 }}
               >
                 <Text
                   style={{
-                    color: '#fff',
+                    color: 'black',
                     fontSize: 20
                   }}
                 >

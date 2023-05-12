@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getTranslationsForExercises, tooEasy, addToFavourites, checkIfFavourite, addEvent, getOptionsAnswers } from "../calls/db.js";
 // import { Link } from "react-router-dom";
 import {
-    StyleSheet, ScrollView, View, Text, Image, Pressable, ActivityIndicator,
+    StyleSheet, ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator,
   } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { User } from 'parse/react-native.js';
@@ -23,6 +23,7 @@ const TranslationScreen = () => {
     const {windowHeight, windowWidth} = useWindowDimensions();
     const [color, setColor] = useState('#40F99B')
     const [correct, setCorrect ] = useState()
+    const [loadingImage, setLoadedImage] = useState(false);
 
     const route = useRoute();
 
@@ -150,52 +151,57 @@ const TranslationScreen = () => {
   }
   if (!translation || loading) {
     return (
-      <View style={{  backgroundColor: '#F9F5FF', height: '100%', paddingTop: 10}}>
+      <View style={{  backgroundColor: '#FFFDFB', height: '100%', paddingTop: 10}}>
         <ActivityIndicator  size="large" color="#F06543"/>
       </View>
     )
   }
   return (
-    <View style={{  backgroundColor: '#F9F5FF', height: windowHeight, flex: 1}}>
-      {practiceFavourites && (<Pressable
+    <View style={{  backgroundColor: '#FFFDFB', height: windowHeight, flex: 1}}>
+      {practiceFavourites && (<TouchableOpacity
         style={{
           backgroundColor: '#ffffff', alignSelf: 'center',
           borderRadius: 50, width: 180, display: 'flex',
           flexDirection: 'row', padding: 1, position: 'absolute',
-          zIndex:100, marginTop: 20, justifyContent: 'center',
+          zIndex:100, marginTop: 10, justifyContent: 'center',
         }}
           onPress={() => exitFavourites()} variant="secondary"
         >
         <Ionicons size={25} color='#F06543' name='close-outline'/>
         <Text style={{fontSize: 16, paddingTop: 3}}>Exit library mode</Text>
-      </Pressable>)}
-    <View style={{alignItems: 'center', height: '65%', width: '100%',paddingTop: 10,
+      </TouchableOpacity>)}
+    <View style={{alignItems: 'center', height: '45%', width: '100%',paddingTop: 10,
       paddingBottom: 10,
-      borderBottomWidth: '2px solid',
+      borderBottomWidth: 2,
+      borderStyle: 'solid',
       borderBottomColor: '#F06543',
       }}>
-      <Image alt="" style={{width: '100%', height: '100%', resizeMode: 'contain'}} src={translation.get("image").get("file").url()} />
+        <Image alt=""
+        style={{width: '100%', height: '100%', resizeMode: 'contain'}}
+        src={translation.get("image").get("file").url()}
+        onLoad={() => setLoadedImage(true)}
+        />
       {/* <ImageBackground style={{width: 350, height: 300, resizeMode: 'contain', flex: 1}} source={require('../assets/graph(4).png')} resizeMode="cover"> */}
         {/* //  style={{resizeMode: 'contain', width:'75%', height:'75%', alignSelf: 'center', justifyContent:'center', marginTop: 20}} */}
         {/* </ImageBackground> */}
         <View style={{display: 'flex', padding: 10, flexDirection: 'row', textAlign: 'center'}}>
-          {/* {isFavourite && !practiceFavourites && (<Pressable
+          {/* {isFavourite && !practiceFavourites && (<TouchableOpacity
           style={{
             backgroundColor: '#ffffff', borderRadius: 50, width: 160, display: 'flex', flexDirection: 'row', padding: 1}}
             onPress={() => addFavourites()} variant="secondary"
           >
             <Ionicons size={25} color='#F06543' name='add-outline'/>
             <Text style={{fontSize: 16, paddingTop: 3}}>Add to favourites</Text>
-          </Pressable>)} */}
+          </TouchableOpacity>)} */}
         </View>
       </View>
-      <ScrollView style={{height: '40%',  marginTop: 20}}>
+      <ScrollView style={{marginTop: 20}}>
         <Text style={{textAlign: 'center', fontSize: 22, fontFamily: 'Archivo_Black', fontWeight: 200, marginBottom: 5}}>
           {translation.get("from")}
         </Text>
       <View style={styles.wordContainer}>
           {wrongs.map((e, index) => (
-            <Pressable key={index}
+            <TouchableOpacity key={index}
             style={{
               backgroundColor: state === index && correct ? "#40F99B" : state === index && correct === false ? "red" : "white",
               borderWidth: state === index ? "2" : '0',
@@ -215,7 +221,7 @@ const TranslationScreen = () => {
             onPress={() => pickTile(e, index)} variant="secondary"
           >
               <Text style={{textAlign: 'center', fontSize: 18, fontFamily: 'Archivo', fontWeight: 200,}}>{e}</Text>
-              </Pressable>
+              </TouchableOpacity>
           ))}
       </View>
     </ScrollView>
@@ -226,9 +232,9 @@ const TranslationScreen = () => {
 const styles = StyleSheet.create({
   wordContainer: {
       display: 'flex',
+      flexWrap: 'wrap',
       flexDirection: 'row',
       marginBottom: 15,
-      flexWrap: true,
       justifyContent: 'center'
   },
   wordTile: {

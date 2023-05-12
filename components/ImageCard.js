@@ -12,14 +12,14 @@ export default function ImageCard({ imageId, url, words, seeTranslations }) {
             key={e.id}>
               <View style={{display: 'flex', flexDirection:'row', alignSelf: 'center'}}>
                 <Image style={styles.image} source={{uri: url}}></Image>
-                <View style={{display: 'flex', flexDirection:'columns'}}>
-                    <Text style={{margin: 10, fontSize: 18}}>{e.get("from")}</Text>
+                <View style={{display: 'flex', flexDirection:'column', flexShrink: 1}}>
+                    <Text style={{margin: 10, fontSize: 18, }}>{e.get("from")}</Text>
                   {seeTranslations && (
                     <Text style={{margin: 10, fontSize: 16, opacity: 0.8}}>{e.get("to")}</Text>
-                  )}
+                    )}
                 </View>
               </View>
-              <Text style={{margin: 10, fontSize: 14, opacity: 0.8, alignSelf: 'flex-end'}}>{ Moment(e.get("createdAt")).format('DD/MM/YY')} </Text>
+              <Text style={{margin: 10, fontSize: 14, opacity: 0.8, position:'absolute', right: 0, bottom: 0}}>{ Moment(e.get("createdAt")).format('DD/MM/YY')} </Text>
             </View>
           ))}
       </View>
@@ -32,9 +32,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '90%',
     alignSelf: 'center',
-    backgroundColor: 'rgba(168, 168, 237, 0.3)',
-    marginBottom: 10,
-    borderRadius: 10,
+    // backgroundColor: '#FFF8F1',
+    borderBottomColor: '#4845ed',
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
     justifyContent: 'space-between'
   },
   mainContainer: {
@@ -42,11 +43,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 600,
     fontFamily: 'Archivo',
-    alignSelf: ''
   },
   image: {
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
     margin: 10,
     alignSelf: 'center',
     justifyContent: 'center'

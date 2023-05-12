@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, ImageBackground, Image, View, Text, Switch, TouchableOpacity
+  StyleSheet, ImageBackground, Image, View, Text, Switch, TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Camera, CameraType } from 'expo-camera';
@@ -151,7 +151,7 @@ const BuildingScreen = (props) => {
                   onPress={__handleFlashMode}
                   style={{
                     backgroundColor: flashMode === 'off' ? '#000' : '#fff',
-                    borderRadius: '50%',
+                    borderRadius: 50,
                     height: 25,
                     width: 25
                   }}
@@ -168,7 +168,7 @@ const BuildingScreen = (props) => {
                   onPress={__switchCamera}
                   style={{
                     marginTop: 20,
-                    borderRadius: '50%',
+                    borderRadius: 50,
                     height: 25,
                     width: 25
                   }}
@@ -289,7 +289,6 @@ const BuildingScreen = (props) => {
           onPress={__startCamera}
           style={{
             backgroundColor: "#4845ed",
-            display: 'block',
             height: 250,
             width: 250,
             alignSelf: 'center',
@@ -351,7 +350,7 @@ const styles = StyleSheet.create({
 container: {
   flex: 1,
   flexDirection: 'column',
-  backgroundColor: '#F9F5FF'
+  backgroundColor: '#FFFDFB'
 },
 image: {
   flex: 1,
@@ -366,7 +365,7 @@ image2: {
   top: -400,
 },
 introText: {
-  fontSize: 24,
+  fontSize: 22,
   // width: '80%',
   padding: 60,
   fontFamily: 'Archivo',
