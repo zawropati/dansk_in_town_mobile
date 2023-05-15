@@ -207,23 +207,13 @@ async function addEvent(eventType, translationId){
 }
 
 async function saveExpoToken(token, userId){
-  const User = new Parse.User();
-  const query = new Parse.Query(User);
-  console.log(userId)
+  const UserToken = new Parse.Object('UserToken');
+  UserToken.set('userId', userId)
+  UserToken.set('expoPushToken', token);
   try {
-    // Finds the user by its ID
-    let user = await query.get(userId);
-    // Updates the data we want
-    user.set('expoPushToken', token);
-    try {
-      // Saves the user with the updated data
-      let response = await user.save();
-      console.log('Updated user', response);
-    } catch (error) {
-      console.error('Error while updating user', error);
-    }
+    let response = await UserToken.save();
   } catch (error) {
-    console.error('Error while retrieving user', error);
+    console.error('Error while creating user token', error);
   }
 }
 

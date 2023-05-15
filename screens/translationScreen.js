@@ -203,8 +203,8 @@ const TranslationScreen = () => {
           {wrongs.map((e, index) => (
             <TouchableOpacity key={index}
             style={{
-              backgroundColor: state === index && correct ? "#40F99B" : state === index && correct === false ? "red" : "white",
-              borderWidth: state === index ? "2" : '0',
+              backgroundColor: state === index && correct ? "#40F99B" : state === index && correct === false ? "red" : "#F3F3FF",
+              borderWidth: state === index ? 2 : 0,
               margin: 5,
               paddingBottom: 25,
               paddingTop: 25,

@@ -1,26 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, ScrollView, TouchableOpacity, View, Text, Pressable
+  StyleSheet, TouchableOpacity, View, Text, Pressable
 } from 'react-native';
 import Parse from 'parse/react-native.js';
-import CustomInput from '../components/customInput.js';
 import { User } from 'parse/react-native.js';
 import {addEvent} from '../calls/db'
+import Moment from 'moment';
 
-const checkUser = async () => {
-  if(await User.currentAsync()){
-    return true
-  }else{
-    return false
-  }
-}
 function ProfileScreen(props) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const [userLogged, setUser] = useState(checkUser);
+  const [date, setDate] = useState();
   const navigation = useNavigation();
-
+  // setDate(Parse.User.current().get('createdAt'))
 
   const logOut = () => {
     addEvent('logout').then(() => {
@@ -32,7 +25,8 @@ function ProfileScreen(props) {
     }
     content = (
     <View style={styles.container}>
-      <Text style={styles.profileText}>Hi {Parse.User.current().get('username')}</Text>
+      <Text style={styles.profileText}>Hi {Parse.User.current().get("username")}!</Text>
+      <Text style={styles.profileTextSmall}>Joined: {Moment(Parse.User.current().get("createdAt")).format('DD/MM/YY')}</Text>
       <TouchableOpacity style={styles.button} onPress={logOut} variant="primary" type="submit">
         <Text style={styles.text}>Sign out</Text>
       </TouchableOpacity>
@@ -46,7 +40,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#F9F5FF',
+    backgroundColor: '#FFFDFB',
     padding:20
   },
   button: {
@@ -66,6 +60,11 @@ const styles = StyleSheet.create({
   profileText: {
     textAlign: 'center',
     fontSize: 30,
+  },
+  profileTextSmall: {
+    textAlign: 'center',
+    fontSize: 16,
+    marginTop: 10
   },
   link: {
     color: 'blue',
