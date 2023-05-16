@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, ScrollView, ActivityIndicator, View, Text, Pressable
+  StyleSheet, ScrollView, ActivityIndicator, View, Text, TouchableOpacity
 } from 'react-native';
 import Parse from 'parse/react-native.js';
 import CustomInput from '../components/customInput.js';
@@ -31,7 +31,7 @@ function LoginScreen(props) {
       props.onLogIn()
       setUser(true)
     }).catch((error) => {
-      console.log(error.message)
+      alert(error.message)
       return false;
     });
   }
@@ -67,14 +67,14 @@ function LoginScreen(props) {
             secureTextEntry
             onChangeText={(e) => setPassword(e)}
             value={password} />
-          <Pressable style={styles.button} onPress={doUserLogIn} variant="primary" type="submit">
+          <TouchableOpacity style={styles.button} onPress={doUserLogIn} variant="primary" type="submit">
             <Text style={styles.text}>Submit</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View><View style={styles.signupBox}>
           <Text >Don't have an account?</Text>
-          <Pressable style={styles.signup} onPress={goToSignup} variant="primary" type="submit">
+          <TouchableOpacity style={styles.signup} onPress={goToSignup} variant="primary" type="submit">
             <Text style={styles.link}> Create one!</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View></>
         {/* )} */}
     {/* {userLogged && (
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   page: {
     padding: 30,
     height: '100%',
-    backgroundColor: '#F9F5FF'
+    backgroundColor: '#FFFDFB'
   },
   button: {
     backgroundColor: '#F06543',

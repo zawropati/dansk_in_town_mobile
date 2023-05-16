@@ -64,11 +64,11 @@ const LearnScreen = ({  }) => {
             setLevel(digit);
             if (number <= digit * 10) {
                 setMissing((digit) * 10 - number);
-                setProgress(1 - ((digit) * 10 - number) / 10);
-                } else {
-                // If number > level * 10, move on to the next level
-                    return;
-                }
+                setProgress(parseFloat(1.1 - ((digit) * 10 - number) / 10));
+            } else {
+            // If number > level * 10, move on to the next level
+                return;
+            }
         })
     return () => mounted = false;
     }, [isFocused, isSeeTranslations]);
@@ -84,20 +84,19 @@ const LearnScreen = ({  }) => {
 
     if (loading) {
         return (
-        <View style={{  backgroundColor: '#F9F5FF', height: '100%', paddingTop: 10}}>
-            <ActivityIndicator  size="large" color="#F06543"/>
+        <View style={{  backgroundColor: '#FFFDFB', height: '100%', paddingTop: 10}}>
+            <ActivityIndicator size="large" color="#F06543"/>
         </View>
         )
     }
-
     return (
-    <View>
-        <><ScrollView style={{ backgroundColor: '#F9F5FF' }}>
+    <View style={{height: '100%'}}>
+        <><ScrollView style={{ backgroundColor: '#FFFDFB' }}>
         <View style={styles.overviewBox}>
             <Text style={styles.textLevel}>Level {level}</Text>
             <Text>{missingWords} words missing to achieve the next level!</Text>
             <View style={styles.progressBox}>
-                {progress && (<ProgressBar color={'#F06543'} progress={progress} />)}
+                {progress && (<ProgressBar color={'#4845ed'} progress={progress} />)}
             </View>
             <View style={styles.boxes}>
                 <Text style={styles.boxText}>Last week you added <Text style={{fontFamily: 'Archivo_Black'}}>{numberLastWeek}</Text> words!</Text>
@@ -107,7 +106,8 @@ const LearnScreen = ({  }) => {
         <View style={{ marginTop: 10 }}>
             <View
                 style={{
-                    width: '90%', display: 'flex', flexDirection: 'row', justifyContent:'space-between', padding: 2, marginLeft: 20
+                    width: '90%', display: 'flex', flexDirection: 'row', justifyContent:'space-between',
+                    padding: 2, marginLeft: 20, borderBottomWidth: 1, borderStyle: 'solid', borderBottomColor: '#F06543'
                 }}
             >
                 <View style={{
@@ -120,7 +120,6 @@ const LearnScreen = ({  }) => {
                     {isSeeTranslations && (<><Ionicons size={25} color='#F06543' name='close' /><Text style={styles.buttonTextAll}> Hide translations</Text></>)}
                 </Pressable>
             </View>
-
             {imageIds.map((imageId) => (
             <View key={imageId}>
                 <ImageCard
@@ -141,20 +140,16 @@ const LearnScreen = ({  }) => {
 const styles = StyleSheet.create({
   overviewBox: {
       display: 'flex',
-      flexDirection: 'row',
-      flexWrap: true,
-    //   width: '90%',
+      width: '90%',
       alignSelf: 'center',
       justifyContent:'center',
+      alignItems: 'center',
       padding: 10,
-      paddingBottom: 20,
       marginBottom: 10,
-      height: 150,
+      height: 160,
       marginTop: 10,
-      borderBottomWidth: '2px solid',
-      borderBottomColor: '#F06543',
-    //   backgroundColor: 'white',
-    //   borderRadius: 10,
+      backgroundColor: '#F3F3FF',
+      borderRadius: 10,
   },
   textLevel: {
     fontSize: 24,

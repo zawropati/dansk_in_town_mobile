@@ -18,7 +18,7 @@ export default function practice ({data}) {
     // const [favourites, setPractice] = useState(practiceFavourites)
     // const route = useRoute();
     // const { data, practiceFavourites } = route.params;
-    console.log(data)
+
     const correctWord = data[Math.floor(Math.random() * data.length)];
     const wrongWords = []
 
@@ -78,7 +78,7 @@ export default function practice ({data}) {
     }
 
     return (
-      <View style={{  backgroundColor: '#F9F5FF', height: '100%' }}>
+      <View style={{  backgroundColor: '#FFFDFB', height: '100%' }}>
       <View style={{alignItems: 'center', alignSelf: 'center'}}>
         <View style={{height: 400, textAlign: 'center'}}>
 				<ImageBackground style={{width: 350, height: 320, resizeMode: 'contain', flex: 1}} source={require('../assets/graph(4).png')} resizeMode="cover">
@@ -102,7 +102,7 @@ export default function practice ({data}) {
             {wrongs.map((e, index) => (
               <Pressable key={index}
               style={{
-                backgroundColor: state === index ? '#40F99B' : 'white',
+                backgroundColor: state === index ? '#40F99B' : '#FFF8F1',
                 margin: 5,
                 paddingBottom: 20,
                 paddingTop: 20,
@@ -145,7 +145,7 @@ export default function practice ({data}) {
                     width: 160,
                     borderRadius: 25,
                     padding: 10,
-                    backgroundColor: 'white',
+                    backgroundColor: '#FFFDFB',
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -189,6 +189,6 @@ const styles = StyleSheet.create({
   text: {
       textAlign: 'center',
       fontSize: 20,
-      color: 'white',
+      color: '#FFFDFB',
   }
 });

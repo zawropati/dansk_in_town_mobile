@@ -14,6 +14,7 @@ import { initializeParse } from '@parse/react-native';
 import { useFonts } from 'expo-font';
 import Parse from 'parse/react-native.js';
 import { addEvent } from './calls/db';
+import ProfileScreen from './screens/profileScreen';
 
 initializeParse(
   "https://parseapi.back4app.com/",
@@ -48,10 +49,10 @@ export default function App() {
   function UserScreen() {
     return (
       <User.Navigator screenOptions={{ tabBarShowLabel: false}}  >
-        <User.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF'}}} name="Login">
+        <User.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB'}, headerShadowVisible: false}} name="Login">
         {(props) => <LoginScreen {...props} onLogIn={() => setLoggedInUser(true) } onLogOut={() => setLoggedInUser(false)} />}
         </User.Screen>
-        <User.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF'}}} name="Signup" component={SignupScreen} />
+        <User.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB'}, headerShadowVisible: false}} name="Signup" component={SignupScreen} />
       </User.Navigator>
     );
   }
@@ -67,45 +68,39 @@ export default function App() {
           let iconName;
           if (route.name === 'Home') {
             iconName = focused ? 'camera' : 'camera-outline';
+            iconColor = focused ?  '#FFFDFB' :  '#F06543'
           } else if (route.name === 'Library') {
             iconName = focused ? 'book' : 'book-outline';
+            iconColor = focused ?  '#FFFDFB' :  '#F06543'
           } else if (route.name === 'Practice') {
             iconName = focused ? 'language' : 'language-outline';
+            iconColor = focused ?  '#FFFDFB' :  '#F06543'
           } else if (route.name === 'Profile') {
-            iconName = focused ? 'log-in' : 'log-in-outline';
+            iconName = focused ? 'person-circle' : 'person-circle-outline';
+            iconColor = focused ?  '#FFFDFB' :  '#F06543'
           }else {
             iconName = focused ? 'log-in' : 'log-in-outline';
+            iconColor = focused ?  '#FFFDFB' :  '#F06543'
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={size} color={iconColor} />;
         },
         tabBarActiveBackgroundColor: '#F06543',
-        tabBarActiveTintColor: 'white',
-        tabBarStyle: [{ backgroundColor: '#fff'}],
+        tabBarActiveTintColor: "#FFFDFB",
+        tabBarInactiveTintColor: "black",
+        tabBarStyle: [{ backgroundColor: '#FFF8F1', borderTopWidth: 0, marginRight: 5 }],
       })}
     >
     {loggedInUser ? (
-      <><Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Home" component={mainScreen} />
-      <Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Library" component={LearnScreen} />
-      <Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Practice" component={TranslationScreen} />
-      <Tab.Screen
-      name="Log out"
-      component={LoginScreen}
-      listeners={({ navigation }) => ({
-        tabPress: (e) => {
-          addEvent('logout').then(() => {
-            e.preventDefault();
-            Parse.User.logOut().then(() => {
-              setLoggedInUser(false)
-              navigation.navigate("Home", {logOut: true});
-            })
-          })
-        }
-      })}
-      />
+      <><Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' } }} name="Home" component={mainScreen} />
+      <Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' } }} name="Library" component={LearnScreen} />
+      <Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' } }} name="Practice" component={TranslationScreen} />
+      <Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' } }} name="Profile">
+      {(props) => <ProfileScreen {...props} onLogOut={() => setLoggedInUser(false)} />}
+      </Tab.Screen>
     </>
     ) : (
-      <><Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }} name="Home" component={mainScreen} />
-      <Tab.Screen options={{ headerStyle: { backgroundColor: '#F9F5FF' } }}
+      <><Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' },  headerShadowVisible: false }} name="Home" component={mainScreen} />
+      <Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' } }}
       name="Profile"
       component={UserScreen} />
       </>

@@ -4,8 +4,11 @@
     "slug": "danskintown",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/cameraLogoSmall.jpg",
     "userInterfaceStyle": "light",
+    "notification":{
+      "icon":"./assets/cameraLogoSmall.jpg"
+    },
     "splash": {
       "image": "./assets/cameraLogo.png",
       "resizeMode": "contain",
