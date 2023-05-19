@@ -175,10 +175,10 @@ async function saveExpoToken(token, userId){
         console.log('Row updated successfully');
       } else {
         // Row doesn't exist, add new row
-        const newRow = new UserToken();
-        newRow.set('userId', userId);
-        newRow.set('expoPushToken', token);
-        await newRow.save();
+        const UserToken = new Parse.Object('UserToken');
+        UserToken.set('userId', userId);
+        UserToken.set('expoPushToken', token);
+        await UserToken.save();
         console.log('New row added successfully');
       }
     } catch (error) {
