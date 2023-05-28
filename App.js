@@ -48,7 +48,7 @@ export default function App() {
 
   function UserScreen() {
     return (
-      <User.Navigator screenOptions={{ tabBarShowLabel: false}}  >
+      <User.Navigator screenOptions={{ tabBarShowLabel: false, headerShown: false}}  >
         <User.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB'}, headerShadowVisible: false}} name="Login">
         {(props) => <LoginScreen {...props} onLogIn={() => setLoggedInUser(true) } onLogOut={() => setLoggedInUser(false)} />}
         </User.Screen>
@@ -100,8 +100,9 @@ export default function App() {
     </>
     ) : (
       <><Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' },  headerShadowVisible: false }} name="Home" component={mainScreen} />
-      <Tab.Screen options={{ headerStyle: { backgroundColor: '#FFFDFB' } }}
-      name="Profile"
+      <Tab.Screen
+      options={{ headerStyle: { backgroundColor: '#FFFDFB' } }}
+      name="Login"
       component={UserScreen} />
       </>
     )}
