@@ -38,12 +38,12 @@ async function getRandomTranslationBut(id) {
 async function getTranslationsForExercises() {
   const Translation = Parse.Object.extend("Translation");
   const query = new Parse.Query(Translation);
-  const totalNumberOfRows = await query.count();
-  query.limit(100); // limit to 100 results
-  query.skip(Math.floor(Math.random() * totalNumberOfRows)); // skip a random number of rows
-  const results = await query.find();
+  query.descending('createdAt');
+  query.limit(100);
 
-
+  // const totalNumberOfRows = await query.count();
+  // query.limit(100); // limit to 100 results
+  // query.skip(Math.floor(Math.random() * totalNumberOfRows)); // skip a random number of rows
   query.include("image");
   query.notContainedIn("too_easy", [User.current()]);
 
@@ -67,31 +67,6 @@ async function getOptionsAnswers(param) {
   const mostSimilarResults = sortedResults.filter(result => result.get("to") !== input).slice(0, 3);
 
   return mostSimilarResults.map(result => result.get("to").toLowerCase());
-
-  // const correctLength = param.get("to").length;
-  // const regex = new RegExp(`^.{${correctLength}}$`);
-  // query.matches("to", regex);
-
-  // let results = await query.find();
-  // const options = new Set();
-
-  // while (options.size < 3 && results.length > 0) {
-  //   const randomIndex = Math.floor(Math.random() * results.length);
-  //   const option = results[randomIndex].get("to");
-
-  //   if (option !== param && option.length === correctLength) {
-  //     options.add(option.toLowerCase());
-  //   }
-
-  //   results.splice(randomIndex, 1);
-
-  //   // If there are no more results, fetch another batch
-  //   if (results.length === 0) {
-  //     results = await query.find();
-  //   }
-  // }
-  // console.log(options)
-  // return Array.from(options);
 }
 
 async function tooEasy(translation) {
@@ -129,27 +104,6 @@ async function uploadImageAndWords(photoFileInfo, photoBase64, translations) {
 }
 
 async function addToFavourites(imageId, userId) {
-  const myNewObject = new Parse.Object('Favourites');
-  myNewObject.set('userId', userId);
-  myNewObject.set('imageId',imageId);
-  try {
-    const result = await myNewObject.save();
-    // Access the Parse Object attributes using the .GET method
-    console.log('Favourites created', result);
-  } catch (error) {
-    console.error('Error while creating Favourites: ', error);
-  }
-}
-
-async function getFavouritesByUser(userId) {
-  const Favourites = Parse.Object.extend("Favourites");
-  const query = new Parse.Query(Favourites);
-
-  const object = await query.get('xKue915KBG');
-  object.set('userId', userId);
-
-  query.include("image");
-  return await query.get(id);
   const myNewObject = new Parse.Object('Favourites');
   myNewObject.set('userId', userId);
   myNewObject.set('imageId',imageId);
@@ -207,13 +161,106 @@ async function addEvent(eventType, translationId){
 }
 
 async function saveExpoToken(token, userId){
-  const UserToken = new Parse.Object('UserToken');
-  UserToken.set('userId', userId)
-  UserToken.set('expoPushToken', token);
-  try {
-    let response = await UserToken.save();
-  } catch (error) {
-    console.error('Error while creating user token', error);
+    const UserToken = new Parse.Object('UserToken');
+    const query = new Parse.Query(UserToken);
+    query.equalTo('userId', userId);
+
+    try {
+      const existingRow = await query.first();
+
+      if (existingRow) {
+        // Row exists, update it
+        existingRow.set('expoPushToken', token);
+        await existingRow.save();
+        console.log('Row updated successfully');
+      } else {
+        // Row doesn't exist, add new row
+        const UserToken = new Parse.Object('UserToken');
+        UserToken.set('userId', userId);
+        UserToken.set('expoPushToken', token);
+        await UserToken.save();
+        console.log('New row added successfully');
+      }
+    } catch (error) {
+      console.log('Error:', error);
+    }
+  }
+
+
+
+  // const UserToken = new Parse.Object('UserToken');
+  // UserToken.set('userId', userId)
+  // UserToken.set('expoPushToken', token);
+  // try {
+  //   let response = await UserToken.save();
+  // } catch (error) {
+  //   console.error('Error while creating user token', error);
+  // }
+
+async function getStrike(){
+  const DailyStrike = Parse.Object.extend("DailyStrike");
+  const query = new Parse.Query(DailyStrike);
+  query.equalTo("userId", Parse.User.current().id);
+  const today = new Date();
+  const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
+  query.greaterThanOrEqualTo('updatedAt', startOfDay);
+  query.lessThan('updatedAt', endOfDay);
+  const strike = await query.first();
+  if (strike) {
+    console.log('Strike found for today');
+    return {
+      "correctAnswersCount": strike.get("correctAnswersCount"),
+      "strikeDays": strike.get("strikeDays")
+    };
+  } else {
+    console.log('Strike not found for today, checking yesterday');
+    const yesterday = new Date(startOfDay.getTime() - 24 * 60 * 60 * 1000);
+    const startOfYesterday = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
+    const endOfYesterday = new Date(startOfDay.getTime() - 1);
+    query.greaterThanOrEqualTo('updatedAt', startOfYesterday);
+    query.lessThan('updatedAt', endOfYesterday);
+    const strikeYesterday = await query.first();
+    if (strikeYesterday){
+      if(strikeYesterday.get('correctAnswersCount') >= 10){
+        return {
+          "correctAnswersCount": 0,
+          "strikeDays": strikeYesterday.get("strikeDays")
+        };
+      }
+    }
+    return 0
+  }
+}
+
+async function handleStrike(dailyStrike){
+  const DailyStrike = Parse.Object.extend("DailyStrike");
+  const query = new Parse.Query(DailyStrike);
+  query.equalTo("userId", Parse.User.current().id);
+  const today = new Date();
+  const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
+  query.greaterThanOrEqualTo('updatedAt', startOfDay);
+  query.lessThan('updatedAt', endOfDay);
+  const strike = await query.first();
+  if(strike){
+    strike.increment('correctAnswersCount', 1);
+    if(strike.get('correctAnswersCount') == 10){
+      strike.increment('strikeDays', 1);
+    }
+    await strike.save()
+    return strike
+  }else{
+    const DailyStrikeNew = new Parse.Object("DailyStrike");
+    DailyStrikeNew.set('userId', Parse.User.current().id)
+    DailyStrikeNew.set('correctAnswersCount', 1);
+    DailyStrikeNew.set('strikeDays', dailyStrike);
+    try {
+     await DailyStrikeNew.save();
+     return DailyStrikeNew
+    } catch (error) {
+      console.error('Error while creating daily strike', error);
+    }
   }
 }
 
@@ -230,5 +277,7 @@ export {
   checkIfFavourite,
   addEvent,
   saveExpoToken,
-  getOptionsAnswers
+  getOptionsAnswers,
+  getStrike,
+  handleStrike
 };

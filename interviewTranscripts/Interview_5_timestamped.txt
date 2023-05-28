@@ -1,0 +1,92 @@
+[00:00 - 00:18] Right, so I will ask you some... one second, I just need to create a new file... But I will start with some like intro questions which I know about you but I still need to ask them. 
+[00:18 - 00:29] So... So... 
+[00:29 - 00:44] Sorry, this is not setting up... I still need Notion, are you using Notion? 
+[00:44 - 00:57] I will just create a new file... Have you tried their AI function? Can you unlock it and see? I want to see the bars. 
+[00:57 - 01:03] So now we have it. So first, your age... 
+[01:03 - 01:13] 27  ...education and nationality. And what is your level of English? 
+[01:13 - 01:20] A2, I think.  And are you currently... B1, something. 
+[01:20 - 01:28] A2, B1, I'm there.  And are you attending the English course?  No. And have you attended some in the past? 
+[01:28 - 01:48] Way too many.  Ok, so why did you stop? I stopped because I was ready to get to the final exam for the B2, but the exam was on a date that I could not attend, so I lost my motivation because the school was badly organized. 
+[01:48 - 01:55] In theory, I did the whole. So basically, it was kind of the school was not motivating you enough to continue. 
+[01:55 - 02:02] Yeah.  Ok.  Yes. And are you using any mobile applications to learn Danish? 
+[02:02 - 02:11] No, no. I used to use Duolingo a lot. And that's pretty much it. 
+[02:11 - 02:22] And why did you stop using Duolingo? Are you still using it? I'm not using it anymore. I became lazier and lazier. 
+[02:22 - 02:37] And in general, if you would have to say, like, do you wish to learn Danish? Is that your goal? And is something stopping you right now to do that? I think on a scale from 1 to 10, it's probably 3. 
+[02:37 - 02:52] 3 that you want to learn it? 3 that I want to learn it. Mainly because I feel very comfy and very… I feel that I'm in a space that is very convenient to just speak English for the basic… 
+[02:52 - 03:11] Not for the cultural integration, but like for the basic of living abroad in Denmark is… So, right. That's why the level is so low. Ok. So, now I'm going to move on to questions about the app. And the first one is, did you feel motivated to use the app? 
+[03:11 - 03:29] Yes. I would say that I was also biased because I was curious about the project. But overall, I like to try out things or apps in this case related to languages because I like learning them. 
+[03:29 - 03:47] And I feel like there's a million different ways to tackle the learning of a language. And, yeah, I like doing a lot of discovery and UX research. So, that's why I also am interested in like trying new apps and stuff. 
+[03:47 - 04:09] That's good. And was there anything that you feel like could improve your motivation or make it higher? Or like something that maybe was unmotivating you? Yes. So, one thing that could bring my motivation up, not directly, but indirectly, would be to have… 
+[04:09 - 04:28] Of course, assuming that you have many different words that you get suggested when you're doing the training on other people's pictures. Having a wide variety of pictures would already help. And having pictures that do not repeat, that would help even better. 
+[04:28 - 04:51] And after, I don't know, say the first two that you guess correct, I would perhaps give a prompt, a notification or whatever, to just say a reminder of what you're at. Like, you're at level one and this seems too easy for you. Do you want to try one for level two? 
+[04:51 - 05:00] And I think Duolingo used to do it as well or some other applications used to do it as well. So, increase the difficulty as you go. 
+[05:00 - 05:13] Yeah. If you go right, like two times out of two, then maybe there's something going wrong in the most good sense. Like, there's something that you could do faster, right? Which is going to the next level. 
+[05:13 - 05:33] So, that would increase the motivation. And I think also, on the other sense, a reminder of you uploading your own pictures. Because maybe, I'm thinking from my point of view, I was lazier in uploading my content rather than just testing other people's content. 
+[05:34 - 05:46] So, I was relying more on the existing library rather than creating my own and trying as well to practice in my own. So, you would say like a reminder as a notification or what would that be? 
+[05:46 - 06:00] I hate notifications, but maybe a prompt inside the app, like a small pop-up for a toast. I don't know, is it called an app language? But yes, inside the app, I love the notification. 
+[06:00 - 06:13] Outside, it stresses me out. Okay. So, we kind of answered that already, but how much did you use it for taking photos and how much for exercises? 
+[06:13 - 06:27] 20-80%. So, 20 taking pictures and 80 practicing on the library. Interesting. Okay, so this doesn't really apply to you because maybe you have suggestions. 
+[06:27 - 06:43] I don't have any suggestions because the next question is about if you didn't use the exercise, do you have any suggestions? But maybe you have some suggestions in general, but I think you already gave a little bit about the pictures being more difficult once you go and more varied. 
+[06:43 - 06:51] Yes, and no repetition. But what was the question? 
+[06:51 - 06:57] It's okay because it's kind of the same.  Okay, great.  Because you're giving such good answers. Thank you. 
+[06:57 - 07:09] How often were you using it, like daily and how long per day, if you could just approximately say? We could say every day in the house, more or less. 
+[07:09 - 07:15] And how many minutes or? 10-15 minutes. 
+[07:16 - 07:28] And what was like a prompt for you to open the app? Was there like an event or you just remembered or you saw a picture on the street or you had free time and then you started to use it? 
+[07:28 - 07:44] I thought it in a functional way because, for example, I received a letter in my mailbox and it was written in Danish and I feel comfortable reading it. But there were words that I didn't understand, so I was like, okay, let's use the app for the function that it's made for. 
+[07:44 - 08:04] So I tried to take a picture and see how good to me the translation sounded or how better I understood it if I translated one word. Because I think that one improvement that I would add is like either select, so maybe draw a line when you take the picture. 
+[08:04 - 08:29] After you took the picture, you have the possibility to draw this line and put it on the sentence or on the word so that you either include the context or include the stand-alone word. Like, for example, if you are highlighting, let's say it in English, so if you're highlighting a post that says, for example, get a coffee for five kroners, 
+[08:30 - 08:45] I have ideally two options. The one that like lets me select the whole sentence, so get a coffee for five kroners with an underline, whatever, highlight, anything. 
+[08:45 - 08:54] And one that on the opposite can let me select just, for example, get. So based on that, you get a translation of the sentence or of the word. 
+[08:54 - 09:00] And then you can see from the picture what you highlighted.  Exactly.  So you know that this is a part of the sentence. Exactly. 
+[09:00 - 09:06] Because I feel like that's cool. There was a lot of signs pictured in the common library. 
+[09:06 - 09:15] I like them. And actually, those were the ones that reminded me of using the app because it was like walking in the metro or like biking around. 
+[09:15 - 09:31] And when I saw, for example, the hand-written sign that said, like, there's only one way in this road, I was like, okay, I remember that there was maybe something in the app. Or maybe when I was in the metro and it was like the come out or come in, I don't remember what it was. 
+[09:31 - 09:38] Those were like the subtle reminder from around. Okay. 
+[09:38 - 09:47] So the next question is what you kind of just said. So was there something in the app that made you particularly interested in coming back to using it the next day? 
+[09:47 - 09:53] Not like this, hooking, hooked on. I feel like it was a lot on the pictures. 
+[09:53 - 10:16] So the context of the picture, not really the content, so not really the words that were highlighted, but more of the context. So if the picture was taken in like a public space context, like a metro or like a public road, then going back to those places and seeing similar signs will remind me of the app. 
+[10:17 - 10:27] And yeah, I think that was it. Okay. 
+[10:27 - 10:34] But would you say there's something that engaged you more? There could be something that's not right now in the app. 
+[10:34 - 10:44] Any ideas? Well, I'm very biased in like using Duolingo because I use it a lot for different languages. 
+[10:44 - 11:03] So the Gamify experience, I feel like it helps up to a certain point in engaging, but then you have to put your own effort in like going back. So I feel like giving awards or rewards for the time you spend or the frequency that you spend, it's a good approach. 
+[11:04 - 11:24] Since we're talking about taking pictures, then I would also implement some ways to rate the pictures or categorize them. On the rating side, like for example, I always take pictures of documents. 
+[11:24 - 11:42] Then you'd be like, it seems like you're good at taking pictures in documents. Do you want to learn Danish related to official written communication rather than spoken? 
+[11:42 - 12:04] Or like if you're taking pictures of public sign, it seems like you are more prone to learn the language related to driving school, something like that. So you both categorize the picture, but you also have like personalized content based on what you're uploading. 
+[12:05 - 12:15] So if you're uploading a lot of street signs, then maybe you get suggested other street signs from the public. How do you call the public library again? I don't remember. 
+[12:22 - 12:32] So in general, did you feel any different about your signings after using the app? Like you know, maybe more aware of Danish around you? 
+[12:34 - 12:50] Yeah, most definitely on the signs. Because the few ones that I saw in the app and practiced with, they unlocked my laziness in like learning a precise word or a precise term in the sentence. 
+[12:50 - 12:57] So I was like, yeah, okay, I feel like I know this better because I practiced in the app. So it was good. 
+[12:57 - 13:10] Nice. So I mean, I know you're already learning and you know some Danish, but did you feel like the app made you like again more interested in Danish vocabulary and potentially in learning? 
+[13:10 - 13:21] For example, going back to learning or is that something that will motivate you again to go back? Absolutely on the motivation side. 
+[13:22 - 13:43] It's very simple. I think it's like just human reaction to stimulus. So I got a lot of inputs from using the app, both in like passive by looking at other people's content and active by taking myself pictures and doing my own, selecting my own translation. 
+[13:43 - 13:51] So I feel like the fact that I received so many inputs then motivated me to learn Danish in this case. So also kind of like the social aspect of it. 
+[13:51 - 14:05] Yeah.  Other people are being like... Yeah, yeah, yeah. I feel like the fact that you're not... I'm not relying only on the content I upload, but I'm relying on how many others are active. 
+[14:05 - 14:21] Yeah.  Gives me more fun to learn as well. And now more technical. So do you have any comments on the upload flow? So anything from making a picture to writing a translation and saving it? 
+[14:22 - 14:55] Yeah. So I feel like just for the principle of like guiding more and more the user in a subtle way, this highlight of like possibility to exclude or include a part of the picture, this would be a great improvement that I would have. And then when I was taking the picture, I feel like the flow was very smooth. And I was surprised because usually in beta version, when you're trying to record or take pictures, it's not as smooth. So it was good. 
+[14:56 - 15:06] There were icons that I didn't understand. Up top left, the flash icon and another one. It was the switch camera. 
+[15:06 - 15:20] Ah, okay. Okay.  It's only the top here. Yeah. No, I tried because I thought it was either the flash or the switch camera, but I think it did nothing with my phone. So I was like, okay, second time I just avoided looking at that. 
+[15:21 - 15:57] Exactly. And then I think that the translation part, so when you are uploading a picture, picture is taken, it prompts you to the translation. I would have secondary translation suggested. So like, you know, for example, if we translate computer in Danish, it would be a certain word. But then the least popular translation of computer would be maybe good enough in my context. So if this would be laptop instead. 
+[15:57 - 16:23] So like, I think you'd have Google Translator when it gives you other words. Exactly. Other like good enough substitutes. So yeah, I would love to have like the secondary ones, especially to put words in context. Because again, like I was scanning a document and I was like, okay, this makes sense. Because it's a word that is like a headline to a paragraph. But what if it was a word in a sentence? 
+[16:24 - 16:37] Yeah. And then yeah, the flow was very good. I think that like, the thing that I tried to like losing the password that of course, like I forget, forget password is always helpful. 
+[16:40 - 16:46] You were not the only one. Nice. Yeah, overall, I think I liked it. Yes. 
+[16:47 - 16:57] So in general, would you consider the app to be like a learning tool in a way that you feel like you could learn from it over time? Mm hmm. 
+[17:26 - 17:59] Or speaking? Because again, like my big struggle in Danish is that I lost motivation because it was so easy to get around in the spoken part of the Danish word as well with English that I lost motivation in speaking it. Because learning it at school I got up to the end. So the speaking part is not considered in the app. So I feel like the app is a plus one, but you need to put your effort in the rest. So would you say you would like this to incorporate some speaking stuff or it's good as it is because it's like focused on vocabulary? 
+[18:22 - 18:28] So if you would have to say how easy was the application to use?  Very easy.  Very easy. Nice. 
+[18:28 - 18:41] Good.  then what did you like the most?  What did I like the most this way of using voice Cuando lo dije° And in general I have to say all the job games is a failsante, you want to actually play at the beginning, you want to translate what you're saying is it you have to pass by so that you can actually hear what it 
+[18:41 - 18:56] Very easy And what did you like the most? 
+[18:56 - 19:19] What did I like the most? I think that Well again from user centric kind of approach I like that is like prompting you immediately to take a picture 
+[19:19 - 19:29] So this also speeds up how long do you take to understand the app So you understand in one second because you look at the screen and it says like take picture 
+[19:29 - 19:39] So I think that I like the most that you're like you're cut to the bone You don't have like I don't know other stuff that might confuse you and what you want to do first 
+[19:39 - 19:51] You want to take picture first and then probably practice in your own library or in others library Look at your level and blah blah blah but I like that is like immediate 
+[19:51 - 19:58] Nice and simple And do you think something is missing? 
+[19:58 - 20:17] Yeah maybe like some profile or like a short profile menu that tells you your username reset the password again if you want I don't really think that like those share awards if they were awards or like achievements would work 
+[20:17 - 20:28] Because I've seen very little people sharing their own awards for example on dueling and stuff like that But I definitely think that like if you implement rewards or like some sort of gamified experience 
+[20:28 - 20:36] You already have like the leveling right? So maybe when you click on the profile then it gives you a broader view on your level 
+[20:36 - 20:48] Like maybe there's a graph that says like you're level 1 and you did maybe you have the Y axis with like the days And the X axis with like the time you used 
+[20:48 - 21:00] Something like that some sort of like macro analytics on your learning But I think overall it's good I would implement the prompts 
+[21:00 - 21:17] Like saying if you're practicing a lot of words that are always the same then be like okay do you want to step up your game and go to level 2 Okay and the last question is would you advise the app to someone else? 
+[21:17 - 21:29] Yes I don't know to who actually because I would advise it like the ones that No not to her 
+[21:29 - 21:40] I think that like since she's speaking  Oh she's speaking Danish Yeah so she's speaking Danish so if she was on the edge of like getting ready to speak 
+[21:40 - 21:52] Yes but I think that she's speaking Danish and she understands most of the words in context even if she doesn't know the meaning But I would recommend it for example I don't know to Finn that is taking the Danish course 
+[21:52 - 22:05] Yes because it helps building vocabulary so to whoever in my circle is trying to learn But not like well yeah also beginners why not 
+[22:05 - 22:09] Okay that's it  Thank you  Thank you and great interview 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-    View, Text, Image, StyleSheet
+    View, Text, Image, StyleSheet, TouchableOpacity
   } from 'react-native';
 import Moment from 'moment';
 
@@ -19,6 +19,7 @@ export default function ImageCard({ imageId, url, words, seeTranslations }) {
                     )}
                 </View>
               </View>
+              {/* <TouchableOpacity style={styles.delete}><Text style={{color: 'white'}}>Delete</Text></TouchableOpacity> */}
               <Text style={{margin: 10, fontSize: 14, opacity: 0.8, position:'absolute', right: 0, bottom: 0}}>{ Moment(e.get("createdAt")).format('DD/MM/YY')} </Text>
             </View>
           ))}
@@ -51,4 +52,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center'
   },
+  delete: {
+    margin: 10,
+    backgroundColor:'#F06543',
+    position:'absolute',
+    right: 0,
+    top: 0,
+    padding: 5,
+    borderRadius: 7
+  }
 });
