@@ -1,5 +1,5 @@
 ## dansk_in_town_mobile
-
+<img src="https://i.ibb.co/8c1FQFs/dit-Screen.png">
 ### Runing on your local
 
 1. You need expo CLI installed (https://docs.expo.dev/get-started/installation/)
